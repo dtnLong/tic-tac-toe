@@ -16,7 +16,7 @@ struct MenuButtonModifier: ViewModifier {
             .background(Color.clear)
             .overlay(
                 RoundedRectangle(cornerRadius: 30)
-                    .stroke(.black, lineWidth: 3)
+                    .stroke(.primary, lineWidth: 3)
             )
     }
 }
