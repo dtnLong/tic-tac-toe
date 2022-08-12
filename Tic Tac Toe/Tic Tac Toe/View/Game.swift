@@ -10,6 +10,7 @@ import SwiftUI
 struct Game: View {
     @Environment(\.presentationMode) var presentationMode
     
+    @Binding var player: Player
     @State var playerList: [Match] = []
     @State var currentPlayer: Int = 0
     @State var currentTurn: Int = 1
@@ -18,9 +19,10 @@ struct Game: View {
     
     let columns: [GridItem] = Array(repeating: GridItem(.fixed(100), spacing: 0, alignment: .center), count: 3)
     
-    init(player: Player) {
+    init(player: Binding<Player>) {
+        self._player = player
         _playerList = State(initialValue: [
-            Match(player: player, isMove: false, piece: "circle", color: "primary"),
+            Match(player: player.wrappedValue, isMove: false, piece: "circle", color: "primary"),
             Match(player: Player(name: "Computer", wins: 0), isMove: false, piece: "xmark", color: "gray")
         ])
     }
@@ -59,8 +61,10 @@ struct Game: View {
         if checkWin(move: move) {
             if (playerList[currentPlayer].player.name == "Computer") {
                 gameStatus = "YOU LOSE"
+                player.wins -= 1
             } else {
                 gameStatus = "YOU WIN"
+                player.wins += 1
             }
             return
         }
@@ -88,11 +92,13 @@ struct Game: View {
         gameStatus = ""
         moves = Array(repeating: "", count: 9)
         
-        playerList[0].isMove = false
-        playerList[0].color = "primary"
-        
-        playerList[1].isMove = false
-        playerList[1].color = "gray"
+        withAnimation() {
+            playerList[0].isMove = false
+            playerList[0].color = "primary"
+            
+            playerList[1].isMove = false
+            playerList[1].color = "gray"
+        }
     }
     
     var body: some View {
@@ -123,17 +129,30 @@ struct Game: View {
                             .border(Color("primary"))
                             .frame(width: 100, height: 100)
                             .overlay(
-                                Image(systemName: moves[index])
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                                    .onTapGesture {
-                                        if (moves[index] == "" && !playerList[currentPlayer].isMove) {
-                                            playerList[currentPlayer].isMove = true
-                                            moves[index] = playerList[currentPlayer].piece
-                                            endTurn(move: index)
-                                        }
+                                VStack {
+                                    if (moves[index] != "") {
+                                        Image(systemName: moves[index])
+                                            .resizable()
+                                            .foregroundColor(.primary)
+                                            .frame(width: 60, height: 60)
+                                            .transition(.opacity.animation(.easeIn(duration: 0.3)))
+                                            .onAppear {
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                                    withAnimation() {
+                                                        endTurn(move: index)
+                                                    }
+                                                }
+                                            }
                                     }
+                                }
                             )
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                if (moves[index] == "" && !playerList[currentPlayer].isMove) {
+                                    playerList[currentPlayer].isMove = true
+                                    moves[index] = playerList[currentPlayer].piece
+                                }
+                            }
                     }
                 }
                 
@@ -180,7 +199,7 @@ struct Game: View {
                             Image(systemName: "arrow.left")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 35, height: 35, alignment: .center)
+                                .frame(width: 45, height: 45, alignment: .center)
                                 .onTapGesture {
                                     presentationMode.wrappedValue.dismiss()
                                 }
@@ -190,14 +209,15 @@ struct Game: View {
                             Image(systemName: "arrow.2.circlepath")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40, alignment: .center)
+                                .frame(width: 50, height: 50, alignment: .center)
                                 .onTapGesture {
                                     restartGame()
                                 }
                         }
-                        .padding([.trailing, .leading], 35)
-                        .padding(.bottom, 20)
+                        .padding([.trailing, .leading], 60)
+                        .padding(.bottom, 60)
                     }
+                    .transition(.opacity.animation(.easeIn(duration: 0.4)))
                     .frame(minWidth: 280, idealWidth: 280, maxWidth: 320, minHeight: 280, idealHeight: 300, maxHeight: 350, alignment: .center)
                     .background(Color("primary-background"))
                     .cornerRadius(20)

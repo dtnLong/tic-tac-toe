@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HowToPlay: View {
     @Environment(\.presentationMode) var presentationMode
+    @Binding var colorSchemeImage: String
     
     var body: some View {
         ZStack {
@@ -16,12 +17,12 @@ struct HowToPlay: View {
                 Spacer()
                 
                 Text("HOW TO PLAY")
-                    .font(.system(size: 50))
+                    .font(.system(size: 50, design: .rounded))
                     .foregroundColor(.primary)
                 
                 Spacer().frame(height: 40)
                 
-                Image("tic-tac-toe-any")
+                Image("tic-tac-toe" + colorSchemeImage)
                 
                 Spacer().frame(height: 40)
                 

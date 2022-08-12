@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var colorScheme: ColorScheme = .light
+    
     var body: some View {
-        Menu()
+        Menu(colorScheme: $colorScheme).preferredColorScheme(colorScheme)
     }
 }
