@@ -82,6 +82,19 @@ struct Game: View {
         playerList[currentPlayer].isMove = false;
     }
     
+    func restartGame() -> Void {
+        currentPlayer = 0
+        currentTurn = 1
+        gameStatus = ""
+        moves = Array(repeating: "", count: 9)
+        
+        playerList[0].isMove = false
+        playerList[0].color = "primary"
+        
+        playerList[1].isMove = false
+        playerList[1].color = "gray"
+    }
+    
     var body: some View {
         ZStack {
             VStack {
@@ -107,7 +120,7 @@ struct Game: View {
                     ForEach(0..<9, id: \.self) {index in
                         Rectangle()
                             .foregroundColor(.clear)
-                            .border(Color.black)
+                            .border(Color("primary"))
                             .frame(width: 100, height: 100)
                             .overlay(
                                 Image(systemName: moves[index])
@@ -131,7 +144,7 @@ struct Game: View {
                     Image(systemName: "arrow.left")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40, alignment: .center)
+                        .frame(width: 35, height: 35, alignment: .center)
                         .onTapGesture {
                             presentationMode.wrappedValue.dismiss()
                         }
@@ -140,6 +153,9 @@ struct Game: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 40, height: 40, alignment: .center)
+                        .onTapGesture {
+                            restartGame()
+                        }
                 }
                 .padding([.trailing, .leading], 35)
                 .padding(.bottom, 20)
@@ -164,7 +180,7 @@ struct Game: View {
                             Image(systemName: "arrow.left")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40, alignment: .center)
+                                .frame(width: 35, height: 35, alignment: .center)
                                 .onTapGesture {
                                     presentationMode.wrappedValue.dismiss()
                                 }
@@ -175,6 +191,9 @@ struct Game: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 40, height: 40, alignment: .center)
+                                .onTapGesture {
+                                    restartGame()
+                                }
                         }
                         .padding([.trailing, .leading], 35)
                         .padding(.bottom, 20)
