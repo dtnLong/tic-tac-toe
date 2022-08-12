@@ -19,6 +19,7 @@
 		98948EAE28A22DE50031FE68 /* PlaySound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98948EAD28A22DE50031FE68 /* PlaySound.swift */; };
 		98948EB028A22E980031FE68 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98948EAF28A22E980031FE68 /* Player.swift */; };
 		98948EB228A2366C0031FE68 /* Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98948EB128A2366C0031FE68 /* Modifier.swift */; };
+		98BA75B828A6102300D603DD /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BA75B728A6102300D603DD /* Match.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		98948EAD28A22DE50031FE68 /* PlaySound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySound.swift; sourceTree = "<group>"; };
 		98948EAF28A22E980031FE68 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		98948EB128A2366C0031FE68 /* Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifier.swift; sourceTree = "<group>"; };
+		98BA75B728A6102300D603DD /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 			children = (
 				98948EAF28A22E980031FE68 /* Player.swift */,
 				980910EA28A2640600AC1242 /* ViewEnum.swift */,
+				98BA75B728A6102300D603DD /* Match.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 				980910EF28A2863500AC1242 /* Profile.swift in Sources */,
 				980910E928A262EF00AC1242 /* HowToPlay.swift in Sources */,
 				98948EB228A2366C0031FE68 /* Modifier.swift in Sources */,
+				98BA75B828A6102300D603DD /* Match.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

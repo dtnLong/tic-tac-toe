@@ -42,7 +42,7 @@ struct Menu: View {
 
                         // Resume Button
                         NavigationLink {
-                            Game()
+                            Game(player: Player(name: "Thomas", wins: 3))
                         } label: {
                             Text("RESUME")
                                 .modifier(MenuButtonTextModifier())
@@ -51,7 +51,7 @@ struct Menu: View {
 
                         // Play Button
                         NavigationLink {
-                            Game()
+                            Game(player: Player(name: "Thomas", wins: 3))
                         } label: {
                             Text("PLAY")
                                 .modifier(MenuButtonTextModifier())
