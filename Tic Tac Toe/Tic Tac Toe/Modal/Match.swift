@@ -11,4 +11,5 @@ struct Match {
     var player: Player = Player()
     var isMove: Bool = false
     var piece: String
+    var color: String
 }

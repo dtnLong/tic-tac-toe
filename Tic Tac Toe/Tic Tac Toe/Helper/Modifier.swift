@@ -28,3 +28,17 @@ struct MenuButtonTextModifier: ViewModifier {
             .foregroundColor(.primary)
     }
 }
+
+struct TurnDisplayModifier: ViewModifier {
+    @Binding var color: String;
+    
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(Color(color))
+            .frame(width: 50, height: 50)
+            .padding(30)
+            .clipped()
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color(color),lineWidth: 4))
+    }
+}

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct Menu: View {
+    @State var isResume: Bool = false
+    
     var body: some View {
-        
-        
         NavigationView {
             ZStack {
                 VStack {
@@ -41,13 +41,15 @@ struct Menu: View {
                     VStack(spacing: 15) {
 
                         // Resume Button
-                        NavigationLink {
-                            Game(player: Player(name: "Thomas", wins: 3))
-                        } label: {
-                            Text("RESUME")
-                                .modifier(MenuButtonTextModifier())
+                        if (isResume) {
+                            NavigationLink {
+                                Game(player: Player(name: "Thomas", wins: 3))
+                            } label: {
+                                Text("RESUME")
+                                    .modifier(MenuButtonTextModifier())
+                            }
+                            .modifier(MenuButtonModifier())
                         }
-                        .modifier(MenuButtonModifier())
 
                         // Play Button
                         NavigationLink {
