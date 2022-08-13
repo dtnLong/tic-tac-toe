@@ -12,6 +12,7 @@
 		980910E728A262D900AC1242 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980910E628A262D900AC1242 /* Game.swift */; };
 		980910E928A262EF00AC1242 /* HowToPlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980910E828A262EF00AC1242 /* HowToPlay.swift */; };
 		980910EF28A2863500AC1242 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980910EE28A2863500AC1242 /* Profile.swift */; };
+		985B1A6428A7A2FA00043334 /* ResumeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B1A6328A7A2FA00043334 /* ResumeData.swift */; };
 		9868E7E928A7563300DDE869 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7E828A7563300DDE869 /* AppSettings.swift */; };
 		9868E7EB28A756D800DDE869 /* ColorSchemeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */; };
 		98948E9D28A22D470031FE68 /* Tic_Tac_ToeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98948E9C28A22D470031FE68 /* Tic_Tac_ToeApp.swift */; };
@@ -29,6 +30,7 @@
 		980910E628A262D900AC1242 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		980910E828A262EF00AC1242 /* HowToPlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlay.swift; sourceTree = "<group>"; };
 		980910EE28A2863500AC1242 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		985B1A6328A7A2FA00043334 /* ResumeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeData.swift; sourceTree = "<group>"; };
 		9868E7E828A7563300DDE869 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeSetting.swift; sourceTree = "<group>"; };
 		98948E9928A22D470031FE68 /* Tic Tac Toe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tic Tac Toe.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				9868E7E828A7563300DDE869 /* AppSettings.swift */,
+				985B1A6328A7A2FA00043334 /* ResumeData.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				98948EB028A22E980031FE68 /* Player.swift in Sources */,
 				98948E9F28A22D470031FE68 /* ContentView.swift in Sources */,
 				9868E7EB28A756D800DDE869 /* ColorSchemeSetting.swift in Sources */,
+				985B1A6428A7A2FA00043334 /* ResumeData.swift in Sources */,
 				980910E328A262C600AC1242 /* Leaderboard.swift in Sources */,
 				98948EAE28A22DE50031FE68 /* PlaySound.swift in Sources */,
 				98948E9D28A22D470031FE68 /* Tic_Tac_ToeApp.swift in Sources */,

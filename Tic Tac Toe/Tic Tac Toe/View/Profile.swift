@@ -193,7 +193,7 @@ struct Profile: View {
                         }
                     }
                         .transition(.opacity.animation(.easeIn(duration: 0.4)))
-                        .frame(width: 400, height: 600, alignment: .center)
+                        .frame(width: 330, height: 500, alignment: .center)
                         .background(Color("primary-background"))
                         .cornerRadius(20)
                 }

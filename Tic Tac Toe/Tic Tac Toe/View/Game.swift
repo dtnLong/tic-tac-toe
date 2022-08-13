@@ -57,13 +57,29 @@ struct Game: View {
     }
     
     func endTurn(move: Int) -> Void {
+        var scoreChange: Int = 0
         if checkWin(move: move) {
             if (playerList[currentPlayer].player == "computer") {
                 gameStatus = "YOU LOSE"
-                settings.currentPlayer.wins -= 1
+                scoreChange = -1
             } else {
                 gameStatus = "YOU WIN"
-                settings.currentPlayer.wins += 1
+                scoreChange = 1
+            }
+            
+            if (settings.currentPlayer.name == "Guest") {
+                return
+            }
+            
+            for (index, player) in settings.playerList.enumerated() {
+                if (player.id == settings.currentPlayer.id) {
+                    settings.playerList[index].wins += scoreChange
+                    do {
+                        UserDefaults.standard.set(try JSONEncoder().encode(settings.playerList), forKey: "playerList")
+                    } catch {
+                        
+                    }
+                }
             }
             return
         }
@@ -125,7 +141,6 @@ struct Game: View {
                     ForEach(0..<9, id: \.self) {index in
                         Rectangle()
                             .foregroundColor(Color("primary-background"))
-//                            .border(Color("primary"))
                             .frame(width: 100, height: 100)
                             .overlay(
                                 VStack {
