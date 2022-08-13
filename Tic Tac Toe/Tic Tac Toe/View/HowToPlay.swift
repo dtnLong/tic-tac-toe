@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HowToPlay: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var colorSchemeImage: String
+    @EnvironmentObject var settings: AppSettings
     
     var body: some View {
         ZStack {
@@ -22,7 +22,7 @@ struct HowToPlay: View {
                 
                 Spacer().frame(height: 40)
                 
-                Image("tic-tac-toe" + colorSchemeImage)
+                Image("tic-tac-toe" + settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImage)
                 
                 Spacer().frame(height: 40)
                 
@@ -42,6 +42,10 @@ struct HowToPlay: View {
                     HStack(alignment: .firstTextBaseline, spacing: 5) {
                         Text("4.")
                         Text("When all 9 squares are full and no player has 3 marks in a row, the game is a draw.")
+                    }
+                    HStack(alignment: .firstTextBaseline, spacing: 5) {
+                        Text("5.")
+                        Text("When you win, you get +1 point. When you lose, you get -1 point")
                     }
                 }.padding([.trailing, .leading], 25)
                 

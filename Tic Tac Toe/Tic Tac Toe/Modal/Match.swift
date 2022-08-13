@@ -8,7 +8,7 @@
 import Foundation
 
 struct Match {
-    var player: Player = Player()
+    var player: String = "computer"
     var isMove: Bool = false
     var piece: String
     var color: String

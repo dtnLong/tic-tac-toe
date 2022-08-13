@@ -9,21 +9,20 @@ import SwiftUI
 
 struct Game: View {
     @Environment(\.presentationMode) var presentationMode
-    
-    @Binding var player: Player
+    @EnvironmentObject var settings: AppSettings
+
     @State var playerList: [Match] = []
     @State var currentPlayer: Int = 0
     @State var currentTurn: Int = 1
     @State var gameStatus: String = ""
     @State var moves: [String] = Array(repeating: "", count: 9)
     
-    let columns: [GridItem] = Array(repeating: GridItem(.fixed(100), spacing: 0, alignment: .center), count: 3)
+    let columns: [GridItem] = Array(repeating: GridItem(.fixed(100), spacing: 5, alignment: .center), count: 3)
     
-    init(player: Binding<Player>) {
-        self._player = player
+    init() {
         _playerList = State(initialValue: [
-            Match(player: player.wrappedValue, isMove: false, piece: "circle", color: "primary"),
-            Match(player: Player(name: "Computer", wins: 0), isMove: false, piece: "xmark", color: "gray")
+            Match(player: "human", isMove: false, piece: "circle", color: "primary"),
+            Match(player: "computer", isMove: false, piece: "xmark", color: "gray")
         ])
     }
     
@@ -59,12 +58,12 @@ struct Game: View {
     
     func endTurn(move: Int) -> Void {
         if checkWin(move: move) {
-            if (playerList[currentPlayer].player.name == "Computer") {
+            if (playerList[currentPlayer].player == "computer") {
                 gameStatus = "YOU LOSE"
-                player.wins -= 1
+                settings.currentPlayer.wins -= 1
             } else {
                 gameStatus = "YOU WIN"
-                player.wins += 1
+                settings.currentPlayer.wins += 1
             }
             return
         }
@@ -122,11 +121,11 @@ struct Game: View {
                 Spacer().frame(height: 60)
                 
                 // Board
-                LazyVGrid(columns: columns, spacing: 0) {
+                LazyVGrid(columns: columns, spacing: 5) {
                     ForEach(0..<9, id: \.self) {index in
                         Rectangle()
-                            .foregroundColor(.clear)
-                            .border(Color("primary"))
+                            .foregroundColor(Color("primary-background"))
+//                            .border(Color("primary"))
                             .frame(width: 100, height: 100)
                             .overlay(
                                 VStack {
@@ -137,7 +136,7 @@ struct Game: View {
                                             .frame(width: 60, height: 60)
                                             .transition(.opacity.animation(.easeIn(duration: 0.3)))
                                             .onAppear {
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                     withAnimation() {
                                                         endTurn(move: index)
                                                     }
@@ -155,6 +154,9 @@ struct Game: View {
                             }
                     }
                 }
+                .frame(width: 320, height: 320)
+                .background(Color.primary)
+                
                 
                 Spacer()
                 

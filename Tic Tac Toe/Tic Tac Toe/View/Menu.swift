@@ -8,16 +8,10 @@
 import SwiftUI
 
 struct Menu: View {
-    @Binding var colorScheme: ColorScheme
-    @State var colorSchemeImageSetting: String = "sun.max"
-    @State var colorSchemeImage: String = "-any"
-    
+    @EnvironmentObject var settings: AppSettings
     
     @State var isResume: Bool = false
-    @State var currentPlayerList: [Player] = [
-        playerList[0],
-        playerList[1]
-    ]
+    
     
     var body: some View {
         NavigationView {
@@ -25,21 +19,17 @@ struct Menu: View {
                 VStack {
                     HStack {
                         Button(action: {
-                            if (colorScheme == .light) {
-                                colorScheme = .dark
-                                colorSchemeImageSetting = "cloud.moon"
-                                colorSchemeImage = "-dark"
+                            if (settings.currentColorScheme == .light) {
+                                settings.currentColorScheme = .dark
                             } else {
-                                colorScheme = .light
-                                colorSchemeImageSetting = "sun.max"
-                                colorSchemeImage = "-any"
+                                settings.currentColorScheme = .light
                             }
                         }, label: {
-                            Image(systemName: colorSchemeImageSetting)
+                            Image(systemName: settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImageSetting)
                                 .resizable()
                                 .foregroundColor(.primary)
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40, alignment: .center)
+                                .frame(width: 50, height: 50, alignment: .center)
                         })
                         // Profile
                         Spacer()
@@ -50,7 +40,7 @@ struct Menu: View {
                             Image(systemName: "person.crop.circle")
                                 .resizable()
                                 .foregroundColor(.primary)
-                                .frame(width: 40, height: 40, alignment: .center)
+                                .frame(width: 50, height: 50, alignment: .center)
                         }
                     }
                     .padding([.trailing, .leading], 20)
@@ -69,7 +59,7 @@ struct Menu: View {
                         // Resume Button
                         if (isResume) {
                             NavigationLink {
-                                Game(player: $currentPlayerList[0])
+                                Game()
                             } label: {
                                 Text("RESUME")
                                     .modifier(MenuButtonTextModifier())
@@ -79,7 +69,7 @@ struct Menu: View {
 
                         // Play Button
                         NavigationLink {
-                            Game(player: $currentPlayerList[0])
+                            Game()
                         } label: {
                             Text("PLAY")
                                 .modifier(MenuButtonTextModifier())
@@ -88,7 +78,7 @@ struct Menu: View {
 
                         // How to play Button
                         NavigationLink {
-                            HowToPlay(colorSchemeImage: $colorSchemeImage)
+                            HowToPlay()
                         } label: {
                             Text("HOW TO PLAY")
                                 .modifier(MenuButtonTextModifier())
@@ -104,9 +94,9 @@ struct Menu: View {
                         Spacer()
 
                         NavigationLink {
-                            Leaderboard(currentPlayerList: $currentPlayerList)
+                            Leaderboard()
                         } label: {
-                            Image("leaderboard" + colorSchemeImage)
+                            Image("leaderboard" + settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImage)
                                 .resizable()
                                 .frame(width: 35, height: 35, alignment: .center)
                                 .padding(15)

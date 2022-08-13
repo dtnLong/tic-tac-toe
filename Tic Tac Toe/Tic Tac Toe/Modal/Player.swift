@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Player: Identifiable {
+struct Player: Identifiable, Codable {
     var id = UUID()
     var name: String = ""
     var wins: Int = 0

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Leaderboard: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var currentPlayerList: [Player]
+    @EnvironmentObject var settings: AppSettings
     
     var body: some View {
         ZStack {
@@ -20,7 +20,7 @@ struct Leaderboard: View {
                     .foregroundColor(.primary)
                 ScrollView {
                     VStack(alignment: .leading) {
-                        ForEach(currentPlayerList) { player in
+                        ForEach(settings.playerList) { player in
                             HStack {
                                 Text(player.name).lineLimit(1)
                                 Spacer()
