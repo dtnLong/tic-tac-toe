@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-class ResumeData: ObservableObject {
+class MatchData: ObservableObject {
     @Published var isResume: Bool = false
-    @Publish 
 }

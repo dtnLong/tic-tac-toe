@@ -9,9 +9,11 @@ import SwiftUI
 
 struct Menu: View {
     @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var profile: ProfileData
+    
+    @Environment(\.scenePhase) var scenePhase
     
     @State var isResume: Bool = false
-    
     
     var body: some View {
         NavigationView {
@@ -106,7 +108,18 @@ struct Menu: View {
                     .padding([.trailing, .leading], 20)
                 }
             }
-            .navigationBarHidden(true)
+                .onChange(of: scenePhase, perform: { phase in
+//                    if phase == .background {
+//                        do {
+//                            UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
+//                        } catch {
+//
+//                        }
+//                    }
+                    StorageUtil.storeData(key: "playerList", data: profile.playerList)
+                    StorageUtil.storeData(key: "player", data: profile.player)
+                })
+                .navigationBarHidden(true)
         }
     }
 }

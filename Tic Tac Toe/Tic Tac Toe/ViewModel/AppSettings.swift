@@ -14,6 +14,25 @@ class AppSettings: ObservableObject {
         .light: ColorSchemeSetting(colorScheme: .light, colorSchemeImage: "-any", colorSchemeImageSetting: "sun.max"),
         .dark: ColorSchemeSetting(colorScheme: .dark, colorSchemeImage: "-dark", colorSchemeImageSetting: "cloud.moon")
     ]
-    @Published var currentPlayer: Player = Player(name: "Guest")
-    @Published var playerList: [Player] = []
+    
+    @Published var isActive = true
+
+    private var observers = [NSObjectProtocol]()
+
+    init() {
+        observers.append(
+            NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { _ in
+                self.isActive = true
+            }
+        )
+        observers.append(
+            NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { _ in
+                self.isActive = false
+            }
+        )
+    }
+    
+    deinit {
+        observers.forEach(NotificationCenter.default.removeObserver)
+    }
 }

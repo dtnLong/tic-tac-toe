@@ -10,6 +10,7 @@ import SwiftUI
 struct Profile: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var profile: ProfileData
     
     @State var newPlayer: String = ""
     @State var newPlayerError: String = " "
@@ -20,24 +21,29 @@ struct Profile: View {
         ZStack {
             VStack(spacing: 15) {
                 Spacer()
+                
+                // Show current username
                 VStack(spacing: 0) {
                     HStack {
                         Text("Hello,")
                             .font(.system(size: 55))
                             .foregroundColor(.primary)
-                        if (settings.currentPlayer.name.count < 6) {
-                            Text(settings.currentPlayer.name)
+                        if (profile.player.name.count < 6) {
+                            Text(profile.player.name)
                                 .font(.system(size: 55))
                                 .foregroundColor(.primary).lineLimit(3)
                         }
                     }
-                    if (settings.currentPlayer.name.count >= 6) {
-                        Text(settings.currentPlayer.name)
+                    if (profile.player.name.count >= 6) {
+                        Text(profile.player.name)
                             .font(.system(size: 55))
                             .foregroundColor(.primary).lineLimit(3)
                     }
                 }
+                
                 Spacer().frame(height: 20)
+                
+                // Create new player
                 Button(action: {
                     create = true
                 }, label: {
@@ -45,7 +51,8 @@ struct Profile: View {
                         .modifier(MenuButtonTextModifier())
                 }).modifier(MenuButtonModifier())
                 
-                if settings.playerList.count != 0 {
+                // Select existing player
+                if (profile.playerList.count != 0) {
                     Button(action: {
                         select = true
                     }, label: {
@@ -70,6 +77,7 @@ struct Profile: View {
                     .padding(.bottom, 20)
             }
             
+            // Create new player overlay
             if (create) {
                 ZStack {
                     Color("transparent")
@@ -77,7 +85,7 @@ struct Profile: View {
                     VStack {
                         Spacer()
                         
-                        TextField("Player name", text: $newPlayer)
+                        TextField("Name", text: $newPlayer)
                             .font(.system(size: 25))
                             .frame(width: 250, height: 60)
                             .background(Color.clear)
@@ -106,30 +114,35 @@ struct Profile: View {
                         Spacer()
                         
                         HStack {
+                            // Confirm new player
                             Image(systemName: "checkmark")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 45, height: 45, alignment: .center)
                                 .onTapGesture {
-                                    if (!settings.playerList.filter {$0.name == newPlayer}.isEmpty ) {
+                                    if (!profile.playerList.filter {$0.name == newPlayer}.isEmpty ) {
                                         newPlayerError = "Name already exist"
                                         return;
                                     }
                                     
-                                    settings.currentPlayer = Player(name: newPlayer, wins: 0)
-                                    settings.playerList.append(settings.currentPlayer)
+                                    profile.player = Player(name: newPlayer, type: .account, wins: 0)
+                                    profile.playerList.append(profile.player)
+                                    
                                     create = false
                                     newPlayer = ""
-                                    do {
-                                        UserDefaults.standard.set(try JSONEncoder().encode(settings.playerList), forKey: "playerList")
-                                        UserDefaults.standard.set(try JSONEncoder().encode(settings.currentPlayer), forKey: "currentPlayer")
-                                    } catch {
-                                        
-                                    }
+                                    
+//                                    StorageUtil.storeData(key: "playerList", data: profile.playerList)
+//                                    do {
+//                                        UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
+//                                    } catch {
+//
+//                                    }
+//                                    StorageUtil.storeData(key: "player", data: profile.player)
                                 }
                             
                             Spacer()
                             
+                            // Cancel new player
                             Image(systemName: "xmark")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -143,12 +156,13 @@ struct Profile: View {
                             .padding(.bottom, 60)
                     }
                         .transition(.opacity.animation(.easeIn(duration: 0.4)))
-                        .frame(minWidth: 280, idealWidth: 280, maxWidth: 320, minHeight: 280, idealHeight: 300, maxHeight: 350, alignment: .center)
+                        .frame(width: 280, height: 350, alignment: .center)
                         .background(Color("primary-background"))
                         .cornerRadius(20)
                 }
             }
         
+            // Select existing player
             if (select) {
                 ZStack {
                     Color("transparent")
@@ -165,10 +179,12 @@ struct Profile: View {
                                 }
                         }
                             .padding([.trailing, .top], 20)
+                        
                         Spacer()
+                        
                         ScrollView {
                             VStack {
-                                ForEach(settings.playerList) { player in
+                                ForEach(profile.playerList) { player in
                                     Text(player.name)
                                         .font(.system(size: 20))
                                         .frame(width: 280, height: 50, alignment: .center)
@@ -179,12 +195,9 @@ struct Profile: View {
                                                 .stroke(.primary, lineWidth: 2)
                                         )
                                         .onTapGesture {
-                                            settings.currentPlayer = player
-                                            do {
-                                                UserDefaults.standard.set(try JSONEncoder().encode(settings.currentPlayer), forKey: "currentPlayer")
-                                            } catch {
-                                                
-                                            }
+                                            profile.player = player
+//                                            StorageUtil.storeData(key: "player", data: profile.player)
+                                            
                                             select = false
                                         }
                                 }

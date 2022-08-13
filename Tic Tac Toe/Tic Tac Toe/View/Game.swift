@@ -10,6 +10,7 @@ import SwiftUI
 struct Game: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var profile: ProfileData
 
     @State var playerList: [Match] = []
     @State var currentPlayer: Int = 0
@@ -67,15 +68,15 @@ struct Game: View {
                 scoreChange = 1
             }
             
-            if (settings.currentPlayer.name == "Guest") {
+            if (profile.player.type == .guest) {
                 return
             }
             
-            for (index, player) in settings.playerList.enumerated() {
-                if (player.id == settings.currentPlayer.id) {
-                    settings.playerList[index].wins += scoreChange
+            for (index, player) in profile.playerList.enumerated() {
+                if (player.id == profile.player.id) {
+                    profile.playerList[index].wins += scoreChange
                     do {
-                        UserDefaults.standard.set(try JSONEncoder().encode(settings.playerList), forKey: "playerList")
+                        UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
                     } catch {
                         
                     }

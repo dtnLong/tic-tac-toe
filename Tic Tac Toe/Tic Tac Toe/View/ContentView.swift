@@ -9,27 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var settings = AppSettings()
+    @StateObject var profile = ProfileData()
     
     var body: some View {
         Menu()
             .onAppear() {
-                if let playerList = UserDefaults.standard.data(forKey: "playerList") {
-                    do {
-                        settings.playerList = try JSONDecoder().decode([Player].self, from: playerList)
-                    } catch {
-                        
-                    }
+                if let playerList: [Player] = StorageUtil.getData(key: "playerList") {
+                    profile.playerList = playerList
                 }
-                
-                if let currentPlayer = UserDefaults.standard.data(forKey: "currentPlayer") {
-                    do {
-                        settings.currentPlayer = try JSONDecoder().decode(Player.self, from: currentPlayer)
-                    } catch {
-                        
-                    }
+
+                if let player: Player = StorageUtil.getData(key: "player") {
+                    profile.player = player
                 }
             }
             .preferredColorScheme(settings.currentColorScheme)
             .environmentObject(settings)
+            .environmentObject(profile)
     }
 }
