@@ -249,7 +249,7 @@ struct Game: View {
             let columnArray: [Int] = [columnStartIndex, columnStartIndex + 3, columnStartIndex + 6]
             if (computerMoves.contains(columnStartIndex) || computerMoves.contains(columnStartIndex + 3) || computerMoves.contains(columnStartIndex + 6)) {
                 if (!playerMoves.contains(columnStartIndex) && !playerMoves.contains(columnStartIndex + 3) && !playerMoves.contains(columnStartIndex + 6)) {
-                    moveScore += 2
+                    moveScore += 4
                     
                     var futurePlayerMove: Int = 0
                     for i in columnArray {
@@ -265,13 +265,12 @@ struct Game: View {
                 moveScore += 1
             }
             
-            
             // Check row
             let rowStartIndex: Int = possibleMove - (possibleMove % 3)
             let rowArray: [Int] = [rowStartIndex, rowStartIndex + 1, rowStartIndex + 2]
             if (computerMoves.contains(rowStartIndex) || computerMoves.contains(rowStartIndex + 1) || computerMoves.contains(rowStartIndex + 2)) {
                 if (!playerMoves.contains(rowStartIndex) && !playerMoves.contains(rowStartIndex + 1) && !playerMoves.contains(rowStartIndex + 2)) {
-                    moveScore += 2
+                    moveScore += 4
                     
                     var futurePlayerMove: Int = 0
                     for i in rowArray {
@@ -290,7 +289,7 @@ struct Game: View {
             if (possibleMove == 0 || possibleMove == 4 || possibleMove == 8) {
                 if (computerMoves.contains(0) || computerMoves.contains(4) || computerMoves.contains(8)) {
                     if (!playerMoves.contains(0) && !playerMoves.contains(4) && !playerMoves.contains(8)) {
-                        moveScore += 2
+                        moveScore += 4
                         
                         var futurePlayerMove: Int = 0
                         for i in [0, 4, 8] {
@@ -311,7 +310,7 @@ struct Game: View {
             if (possibleMove == 2 || possibleMove == 4 || possibleMove == 6) {
                 if (computerMoves.contains(2) || computerMoves.contains(4) || computerMoves.contains(6)) {
                     if (!playerMoves.contains(2) && !playerMoves.contains(4) && !playerMoves.contains(6)) {
-                        moveScore += 2
+                        moveScore += 4
                         
                         var futurePlayerMove: Int = 0
                         for i in [2, 4, 6] {
@@ -327,11 +326,13 @@ struct Game: View {
                 }
             }
             
+            
             if (moveScore > maxScore) {
                 maxScore = moveScore
                 move = possibleMove
             }
         }
+        
         moves[move] = computerPiece
         return
     }
