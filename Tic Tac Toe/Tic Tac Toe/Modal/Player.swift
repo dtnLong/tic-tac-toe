@@ -18,4 +18,9 @@ struct Player: Identifiable, Codable {
     var name: String = ""
     var type: PlayerType = .guest
     var wins: Int = 0
+    var games: Int = 0
+    
+    var isBadge1: Bool = false
+    var isBadge2: Bool = false
+    var isBadge3: Bool = false
 }

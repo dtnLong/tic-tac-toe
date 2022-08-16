@@ -382,10 +382,24 @@ struct Game: View {
             for (index, player) in profile.playerList.enumerated() {
                 if (player.id == profile.player.id) {
                     profile.playerList[index].wins += scoreChange
-                    do {
-                        UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
-                    } catch {
-                        
+                    profile.playerList[index].games += 1
+                    
+                    if (!profile.playerList[index].isBadge1) {
+                        if (gameStatus == "YOU WIN") {
+                            profile.playerList[index].isBadge1 = true
+                        }
+                    }
+                    
+                    if (!profile.playerList[index].isBadge2) {
+                        if (profile.playerList[index].games == 10) {
+                            profile.playerList[index].isBadge2 = true
+                        }
+                    }
+                    
+                    if (!profile.playerList[index].isBadge3) {
+                        if (gameStatus == "YOU LOSE") {
+                            profile.playerList[index].isBadge3 = true
+                        }
                     }
                 }
             }
@@ -395,6 +409,19 @@ struct Game: View {
         // Check tie
         if currentTurn == 9 {
             gameStatus = "DRAW"
+            
+            for (index, player) in profile.playerList.enumerated() {
+                if (player.id == profile.player.id) {
+                    profile.playerList[index].games += 1
+                    
+                    if (!profile.playerList[index].isBadge2) {
+                        if (profile.playerList[index].games == 10) {
+                            profile.playerList[index].isBadge2 = true
+                        }
+                    }
+                }
+            }
+            
             return
         }
         
@@ -409,7 +436,9 @@ struct Game: View {
         playerList[currentPlayer].isMove = false;
         
         if (playerList[currentPlayer].player == "computer") {
-            computerMove(playerMove: move)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                computerMove(playerMove: move)
+            }
         }
     }
     
