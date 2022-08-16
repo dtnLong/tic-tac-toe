@@ -27,6 +27,87 @@ struct Game: View {
         ])
     }
     
+    func computerMove(playerMove: Int) -> Void {
+        let computerPiece = playerList[1].piece
+        let playerPiece = playerList[0].piece
+        print(playerMove)
+        
+        if (moves[4] == "") {
+            moves[4] = playerList[currentPlayer].piece
+            playerList[currentPlayer].isMove = true
+            return
+        }
+        
+        // Check column win
+        for columnStartIndex in 0...2 {
+            if (moves[columnStartIndex] != playerPiece && moves[columnStartIndex + 3] != playerPiece && moves[columnStartIndex + 6] != playerPiece) {
+                if (moves[columnStartIndex] == computerPiece && moves[columnStartIndex + 3] == computerPiece) {
+                    moves[columnStartIndex + 6] = computerPiece
+                    return
+                } else if (moves[columnStartIndex] == computerPiece && moves[columnStartIndex + 6] == computerPiece) {
+                    moves[columnStartIndex + 3] = computerPiece
+                    return
+                } else if (moves[columnStartIndex + 3] == computerPiece && moves[columnStartIndex + 6] == computerPiece) {
+                    moves[columnStartIndex] = computerPiece
+                    return
+                }
+            }
+        }
+        
+        // Check row win
+        for rowStartIndex in stride(from: 0, to: 7, by: 3) {
+            if (moves[rowStartIndex] != playerPiece && moves[rowStartIndex + 1] != playerPiece && moves[rowStartIndex + 2] != playerPiece) {
+                if (moves[rowStartIndex] == computerPiece && moves[rowStartIndex + 1] == computerPiece) {
+                    moves[rowStartIndex + 2] = computerPiece
+                    return
+                } else if (moves[rowStartIndex] == computerPiece && moves[rowStartIndex + 2] == computerPiece) {
+                    moves[rowStartIndex + 1] = computerPiece
+                    return
+                } else if (moves[rowStartIndex + 1] == computerPiece && moves[rowStartIndex + 2] == computerPiece) {
+                    moves[rowStartIndex] = computerPiece
+                    return
+                }
+            }
+        }
+        
+        // Check column to block
+        let columnStartIndex: Int = playerMove % 3
+        if (moves[columnStartIndex] != computerPiece && moves[columnStartIndex + 3] != computerPiece && moves[columnStartIndex + 6] != computerPiece) {
+            if (moves[columnStartIndex] == playerPiece && moves[columnStartIndex + 3] == playerPiece) {
+                print("block column")
+                moves[columnStartIndex + 6] = computerPiece
+                return
+            } else if (moves[columnStartIndex] == playerPiece && moves[columnStartIndex + 6] == playerPiece) {
+                print("block column")
+                moves[columnStartIndex + 3] = computerPiece
+                return
+            } else if (moves[columnStartIndex + 3] == playerPiece && moves[columnStartIndex + 6] == playerPiece) {
+                print("block column")
+                moves[columnStartIndex] = computerPiece
+                return
+            }
+        }
+        
+        // Check row to block
+        let rowStartIndex: Int = playerMove - (playerMove % 3)
+        if (moves[rowStartIndex] != computerPiece && moves[rowStartIndex + 1] != computerPiece && moves[rowStartIndex + 2] != computerPiece) {
+            if (moves[rowStartIndex] == playerPiece && moves[rowStartIndex + 1] == playerPiece) {
+                print("block row")
+                moves[rowStartIndex + 2] = computerPiece
+                return
+            } else if (moves[rowStartIndex] == playerPiece && moves[rowStartIndex + 2] == playerPiece) {
+                print("block row")
+                moves[rowStartIndex + 1] = computerPiece
+                return
+            } else if (moves[rowStartIndex + 1] == playerPiece && moves[rowStartIndex + 2] == playerPiece) {
+                print("block row")
+                moves[rowStartIndex] = computerPiece
+                return
+            }
+        }
+        
+    }
+    
     func checkWin(move: Int) -> Bool {
         // Check row
         let rowStartIndex: Int = move - (move % 3)
@@ -59,6 +140,7 @@ struct Game: View {
     
     func endTurn(move: Int) -> Void {
         var scoreChange: Int = 0
+        print("end " + String(currentPlayer))
         if checkWin(move: move) {
             if (playerList[currentPlayer].player == "computer") {
                 gameStatus = "YOU LOSE"
@@ -155,6 +237,9 @@ struct Game: View {
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                     withAnimation() {
                                                         endTurn(move: index)
+                                                        if (playerList[currentPlayer].player == "computer") {
+                                                            computerMove(playerMove: index)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -163,7 +248,7 @@ struct Game: View {
                             )
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                if (moves[index] == "" && !playerList[currentPlayer].isMove) {
+                                if (moves[index] == "" && !playerList[currentPlayer].isMove && playerList[currentPlayer].player != "computer") {
                                     playerList[currentPlayer].isMove = true
                                     moves[index] = playerList[currentPlayer].piece
                                 }

@@ -130,14 +130,6 @@ struct Profile: View {
                                     
                                     create = false
                                     newPlayer = ""
-                                    
-//                                    StorageUtil.storeData(key: "playerList", data: profile.playerList)
-//                                    do {
-//                                        UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
-//                                    } catch {
-//
-//                                    }
-//                                    StorageUtil.storeData(key: "player", data: profile.player)
                                 }
                             
                             Spacer()

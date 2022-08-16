@@ -14,12 +14,20 @@ struct ContentView: View {
     var body: some View {
         Menu()
             .onAppear() {
-                if let playerList: [Player] = StorageUtil.getData(key: "playerList") {
-                    profile.playerList = playerList
+                if let data = UserDefaults.standard.data(forKey: "player") {
+                    do {
+                        profile.player = try JSONDecoder().decode(Player.self, from: data)
+                    } catch {
+                        
+                    }
                 }
-
-                if let player: Player = StorageUtil.getData(key: "player") {
-                    profile.player = player
+                
+                if let data = UserDefaults.standard.data(forKey: "playerList") {
+                    do {
+                        profile.playerList = try JSONDecoder().decode([Player].self, from: data)
+                    } catch {
+                        
+                    }
                 }
             }
             .preferredColorScheme(settings.currentColorScheme)

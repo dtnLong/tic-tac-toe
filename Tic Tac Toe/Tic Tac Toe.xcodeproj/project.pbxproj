@@ -14,7 +14,6 @@
 		980910EF28A2863500AC1242 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980910EE28A2863500AC1242 /* Profile.swift */; };
 		985B1A6428A7A2FA00043334 /* MatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B1A6328A7A2FA00043334 /* MatchData.swift */; };
 		985B1A6628A7A50700043334 /* ProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B1A6528A7A50700043334 /* ProfileData.swift */; };
-		985B1A6828A7A71F00043334 /* StorageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B1A6728A7A71F00043334 /* StorageUtil.swift */; };
 		9868E7E928A7563300DDE869 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7E828A7563300DDE869 /* AppSettings.swift */; };
 		9868E7EB28A756D800DDE869 /* ColorSchemeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */; };
 		98948E9D28A22D470031FE68 /* Tic_Tac_ToeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98948E9C28A22D470031FE68 /* Tic_Tac_ToeApp.swift */; };
@@ -34,7 +33,6 @@
 		980910EE28A2863500AC1242 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		985B1A6328A7A2FA00043334 /* MatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchData.swift; sourceTree = "<group>"; };
 		985B1A6528A7A50700043334 /* ProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileData.swift; sourceTree = "<group>"; };
-		985B1A6728A7A71F00043334 /* StorageUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageUtil.swift; sourceTree = "<group>"; };
 		9868E7E828A7563300DDE869 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeSetting.swift; sourceTree = "<group>"; };
 		98948E9928A22D470031FE68 /* Tic Tac Toe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tic Tac Toe.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,7 +123,6 @@
 			children = (
 				98948EAD28A22DE50031FE68 /* PlaySound.swift */,
 				98948EB128A2366C0031FE68 /* Modifier.swift */,
-				985B1A6728A7A71F00043334 /* StorageUtil.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -200,7 +197,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				980910E128A2614900AC1242 /* Menu.swift in Sources */,
-				985B1A6828A7A71F00043334 /* StorageUtil.swift in Sources */,
 				980910E728A262D900AC1242 /* Game.swift in Sources */,
 				9868E7E928A7563300DDE869 /* AppSettings.swift in Sources */,
 				98948EB028A22E980031FE68 /* Player.swift in Sources */,
