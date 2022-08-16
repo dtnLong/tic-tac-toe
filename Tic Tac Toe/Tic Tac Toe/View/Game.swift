@@ -27,6 +27,46 @@ struct Game: View {
         ])
     }
     
+    func checkFuturePlayerMove(futureMove: Int, playerMoves: [Int], computerMoves: [Int]) -> Int {
+        var moveScore: Int = 0;
+        
+        // Check column
+        let columnStartIndex: Int = futureMove % 3
+        if (!computerMoves.contains(columnStartIndex) && !computerMoves.contains(columnStartIndex + 3) && !computerMoves.contains(columnStartIndex + 6)) {
+            if (playerMoves.contains(columnStartIndex) || playerMoves.contains(columnStartIndex + 3) || playerMoves.contains(columnStartIndex + 6)) {
+                moveScore -= 1
+            }
+        }
+        
+        // Check Row
+        let rowStartIndex: Int = futureMove - (futureMove % 3)
+        if (!computerMoves.contains(rowStartIndex) && !computerMoves.contains(rowStartIndex + 1) && !computerMoves.contains(rowStartIndex + 2)) {
+            if (playerMoves.contains(rowStartIndex) || playerMoves.contains(rowStartIndex + 1) || playerMoves.contains(rowStartIndex + 2)) {
+                moveScore -= 1
+            }
+        }
+        
+        // Check diagonal left to right
+        if (futureMove == 0 || futureMove == 4 || futureMove == 8) {
+            if (!computerMoves.contains(0) && !computerMoves.contains(4) && !computerMoves.contains(8)) {
+                if (playerMoves.contains(0) || playerMoves.contains(4) || playerMoves.contains(8)) {
+                    moveScore -= 1
+                }
+            }
+        }
+        
+        // Check diagonal right to left
+        if (futureMove == 2 || futureMove == 4 || futureMove == 6) {
+            if (!computerMoves.contains(2) && !computerMoves.contains(4) && !computerMoves.contains(6)) {
+                if (playerMoves.contains(2) || playerMoves.contains(4) || playerMoves.contains(6)) {
+                    moveScore -= 1
+                }
+            }
+        }
+        
+        return moveScore
+    }
+    
     func computerMove(playerMove: Int) -> Void {
         let computerPiece = playerList[1].piece
         let playerPiece = playerList[0].piece
@@ -139,7 +179,7 @@ struct Game: View {
             }
         }
         
-        // Check left to right diagonal to win
+        // Check left to right diagonal to block
         if (playerMove == 0 || playerMove == 4 || playerMove == 8) {
             print("Here")
             if (moves[0] != computerPiece && moves[4] != computerPiece && moves[8] != computerPiece) {
@@ -156,7 +196,7 @@ struct Game: View {
             }
         }
         
-        // Check right to left diagonal to win
+        // Check right to left diagonal to block
         if (playerMove == 2 || playerMove == 4 || playerMove == 6) {
             if (moves[2] != computerPiece && moves[4] != computerPiece && moves[6] != computerPiece) {
                 if (moves[2] == playerPiece && moves[4] == playerPiece) {
@@ -171,6 +211,116 @@ struct Game: View {
                 }
             }
         }
+        
+        // Check piece to move
+        var possibleMoves: [Int: Int] = [:]
+        var computerMoves: [Int] = []
+        var playerMoves: [Int] = []
+        
+        var maxScore: Int = -1
+        var move: Int = 0
+        
+        for (index, move) in moves.enumerated() {
+            if (move == playerPiece) {
+                playerMoves.append(index)
+            } else if (move == computerPiece) {
+                computerMoves.append(index)
+            } else {
+                possibleMoves[index] = 0
+            }
+        }
+        
+        for (possibleMove, _) in possibleMoves {
+            // Check column
+            let columnStartIndex: Int = possibleMove % 3
+            let columnArray: [Int] = [columnStartIndex, columnStartIndex + 3, columnStartIndex + 6]
+            if (computerMoves.contains(columnStartIndex) || computerMoves.contains(columnStartIndex + 3) || computerMoves.contains(columnStartIndex + 6)) {
+                if (!playerMoves.contains(columnStartIndex) && !playerMoves.contains(columnStartIndex + 3) && !playerMoves.contains(columnStartIndex + 6)) {
+                    possibleMoves[possibleMove]! += 2
+                    
+                    var futurePlayerMove: Int = 0
+                    for i in columnArray {
+                        if (!computerMoves.contains(i) && possibleMove != i) {
+                            futurePlayerMove = i
+                            break;
+                        }
+                    }
+                    possibleMoves[possibleMove]! += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
+                    
+                }
+            } else if (playerMoves.contains(columnStartIndex) || playerMoves.contains(columnStartIndex + 3) || playerMoves.contains(columnStartIndex + 6)) {
+                possibleMoves[possibleMove]! += 1
+            }
+            
+            
+            // Check row
+            let rowStartIndex: Int = possibleMove - (possibleMove % 3)
+            let rowArray: [Int] = [rowStartIndex, rowStartIndex + 1, rowStartIndex + 2]
+            if (computerMoves.contains(rowStartIndex) || computerMoves.contains(rowStartIndex + 1) || computerMoves.contains(rowStartIndex + 2)) {
+                if (!playerMoves.contains(rowStartIndex) && !playerMoves.contains(rowStartIndex + 1) && !playerMoves.contains(rowStartIndex + 2)) {
+                    possibleMoves[possibleMove]! += 2
+                    
+                    var futurePlayerMove: Int = 0
+                    for i in rowArray {
+                        if (!computerMoves.contains(i) && possibleMove != i) {
+                            futurePlayerMove = i
+                            break;
+                        }
+                    }
+                    possibleMoves[possibleMove]! += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
+                }
+            } else if (playerMoves.contains(rowStartIndex) || playerMoves.contains(rowStartIndex + 1) || playerMoves.contains(rowStartIndex + 2)) {
+                possibleMoves[possibleMove]! += 1
+            }
+            
+            // Check left to right diagonal
+            if (possibleMove == 0 || possibleMove == 4 || possibleMove == 8) {
+                if (computerMoves.contains(0) || computerMoves.contains(4) || computerMoves.contains(8)) {
+                    if (!playerMoves.contains(0) && !playerMoves.contains(4) && !playerMoves.contains(8)) {
+                        possibleMoves[possibleMove]! += 2
+                        
+                        var futurePlayerMove: Int = 0
+                        for i in [0, 4, 8] {
+                            if (!computerMoves.contains(i) && possibleMove != i) {
+                                futurePlayerMove = i
+                                break;
+                            }
+                        }
+                        possibleMoves[possibleMove]! += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
+                    }
+                } else if (playerMoves.contains(0) || playerMoves.contains(4) || playerMoves.contains(8)) {
+                    possibleMoves[possibleMove]! += 1
+                }
+            }
+            
+            
+            // Check right to left diagonal
+            if (possibleMove == 2 || possibleMove == 4 || possibleMove == 6) {
+                if (computerMoves.contains(2) || computerMoves.contains(4) || computerMoves.contains(6)) {
+                    if (!playerMoves.contains(2) && !playerMoves.contains(4) && !playerMoves.contains(6)) {
+                        possibleMoves[possibleMove]! += 2
+                        
+                        var futurePlayerMove: Int = 0
+                        for i in [2, 4, 6] {
+                            if (!computerMoves.contains(i) && possibleMove != i) {
+                                futurePlayerMove = i
+                                break;
+                            }
+                        }
+                        possibleMoves[possibleMove]! += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
+                    }
+                } else if (playerMoves.contains(2) || playerMoves.contains(4) || playerMoves.contains(6)) {
+                    possibleMoves[possibleMove]! += 1
+                }
+            }
+            
+            if (possibleMoves[possibleMove]! > maxScore) {
+                maxScore = possibleMoves[possibleMove]!
+                move = possibleMove
+            }
+        }
+        moves[move] = computerPiece
+        return
     }
     
     func checkWin(move: Int) -> Bool {
@@ -247,6 +397,10 @@ struct Game: View {
         }
         playerList[currentPlayer].color = "primary"
         playerList[currentPlayer].isMove = false;
+        
+        if (playerList[currentPlayer].player == "computer") {
+            computerMove(playerMove: move)
+        }
     }
     
     func restartGame() -> Void {
@@ -302,9 +456,6 @@ struct Game: View {
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                     withAnimation() {
                                                         endTurn(move: index)
-                                                        if (playerList[currentPlayer].player == "computer") {
-                                                            computerMove(playerMove: index)
-                                                        }
                                                     }
                                                 }
                                             }
