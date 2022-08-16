@@ -33,8 +33,13 @@ struct Game: View {
         print(playerMove)
         
         if (moves[4] == "") {
-            moves[4] = playerList[currentPlayer].piece
-            playerList[currentPlayer].isMove = true
+            moves[4] = computerPiece
+            return
+        }
+        
+        if (currentTurn == 2 && moves[4] != "") {
+            let possibleMove = [0, 2, 6, 8]
+            moves[possibleMove[Int.random(in: 0...3)]] = computerPiece
             return
         }
         
@@ -67,6 +72,34 @@ struct Game: View {
                     moves[rowStartIndex] = computerPiece
                     return
                 }
+            }
+        }
+        
+        // Check left to right diagonal to win
+        if (moves[0] != playerPiece && moves[4] != playerPiece && moves[8] != playerPiece) {
+            if (moves[0] == computerPiece && moves[4] == computerPiece) {
+                moves[8] = computerPiece
+                return
+            } else if (moves[0] == computerPiece && moves[8] == computerPiece) {
+                moves[4] = computerPiece
+                return
+            } else if (moves[4] == computerPiece && moves[8] == computerPiece) {
+                moves[0] = computerPiece
+                return
+            }
+        }
+        
+        // Check right to left diagonal to win
+        if (moves[2] != playerPiece && moves[4] != playerPiece && moves[6] != playerPiece) {
+            if (moves[2] == computerPiece && moves[4] == computerPiece) {
+                moves[6] = computerPiece
+                return
+            } else if (moves[2] == computerPiece && moves[6] == computerPiece) {
+                moves[4] = computerPiece
+                return
+            } else if (moves[4] == computerPiece && moves[6] == computerPiece) {
+                moves[2] = computerPiece
+                return
             }
         }
         
@@ -106,6 +139,38 @@ struct Game: View {
             }
         }
         
+        // Check left to right diagonal to win
+        if (playerMove == 0 || playerMove == 4 || playerMove == 8) {
+            print("Here")
+            if (moves[0] != computerPiece && moves[4] != computerPiece && moves[8] != computerPiece) {
+                if (moves[0] == playerPiece && moves[4] == playerPiece) {
+                    moves[8] = computerPiece
+                    return
+                } else if (moves[0] == playerPiece && moves[8] == playerPiece) {
+                    moves[4] = computerPiece
+                    return
+                } else if (moves[4] == playerPiece && moves[8] == playerPiece) {
+                    moves[0] = computerPiece
+                    return
+                }
+            }
+        }
+        
+        // Check right to left diagonal to win
+        if (playerMove == 2 || playerMove == 4 || playerMove == 6) {
+            if (moves[2] != computerPiece && moves[4] != computerPiece && moves[6] != computerPiece) {
+                if (moves[2] == playerPiece && moves[4] == playerPiece) {
+                    moves[6] = computerPiece
+                    return
+                } else if (moves[2] == playerPiece && moves[6] == playerPiece) {
+                    moves[4] = computerPiece
+                    return
+                } else if (moves[4] == playerPiece && moves[6] == playerPiece) {
+                    moves[2] = computerPiece
+                    return
+                }
+            }
+        }
     }
     
     func checkWin(move: Int) -> Bool {
