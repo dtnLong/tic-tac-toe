@@ -124,17 +124,17 @@ struct Menu: View {
                     .padding([.trailing, .leading], 20)
                 }
             }
-                .onChange(of: scenePhase, perform: { phase in
-                    if phase == .background {
-                        do {
-                            UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
-                            UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
-                        } catch {
+            .onChange(of: scenePhase, perform: { phase in
+                if phase == .background {
+                    do {
+                        UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
+                        UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
+                    } catch {
 
-                        }
                     }
-                })
-                .navigationBarHidden(true)
+                }
+            })
+            .navigationBarHidden(true)
         }
     }
 }

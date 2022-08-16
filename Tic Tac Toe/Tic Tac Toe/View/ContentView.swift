@@ -8,30 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var settings = AppSettings()
-    @StateObject var profile = ProfileData()
+    @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var profile: ProfileData
+    
+    @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
         Menu()
-            .onAppear() {
-                if let data = UserDefaults.standard.data(forKey: "player") {
+            .onChange(of: scenePhase, perform: { phase in
+                if phase == .background {
                     do {
-                        profile.player = try JSONDecoder().decode(Player.self, from: data)
+                        UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
+                        UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
                     } catch {
-                        
+
                     }
                 }
-                
-                if let data = UserDefaults.standard.data(forKey: "playerList") {
-                    do {
-                        profile.playerList = try JSONDecoder().decode([Player].self, from: data)
-                    } catch {
-                        
-                    }
-                }
-            }
-            .preferredColorScheme(settings.currentColorScheme)
-            .environmentObject(settings)
-            .environmentObject(profile)
+            })
     }
 }

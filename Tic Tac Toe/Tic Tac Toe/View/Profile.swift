@@ -12,6 +12,8 @@ struct Profile: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
     
+    @Environment(\.scenePhase) var scenePhase
+    
     @State var newPlayer: String = ""
     @State var newPlayerError: String = " "
     @State var create: Bool = false
@@ -188,8 +190,6 @@ struct Profile: View {
                                         )
                                         .onTapGesture {
                                             profile.player = player
-//                                            StorageUtil.storeData(key: "player", data: profile.player)
-                                            
                                             select = false
                                         }
                                 }
@@ -197,12 +197,23 @@ struct Profile: View {
                             .padding(10)
                         }
                     }
-                        .transition(.opacity.animation(.easeIn(duration: 0.4)))
-                        .frame(width: 330, height: 500, alignment: .center)
-                        .background(Color("primary-background"))
-                        .cornerRadius(20)
+                    .transition(.opacity.animation(.easeIn(duration: 0.4)))
+                    .frame(width: 330, height: 500, alignment: .center)
+                    .background(Color("primary-background"))
+                    .cornerRadius(20)
                 }
             }
-        }.navigationBarHidden(true)
+        }
+        .onChange(of: scenePhase, perform: { phase in
+            if phase == .background {
+                do {
+                    UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
+                    UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
+                } catch {
+
+                }
+            }
+        })
+        .navigationBarHidden(true)
     }
 }

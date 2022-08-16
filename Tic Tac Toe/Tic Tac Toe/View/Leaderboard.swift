@@ -12,6 +12,10 @@ struct Leaderboard: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
     
+    @Environment(\.scenePhase) var scenePhase
+    
+    @State var viewBadgeOverlay: Bool = false;
+    
     var body: some View {
         ZStack {
             VStack {
@@ -117,10 +121,116 @@ struct Leaderboard: View {
                             presentationMode.wrappedValue.dismiss()
                         }
                     Spacer()
+                    Image(systemName: "rosette")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 35, height: 35, alignment: .center)
+                        .padding(15)
+                        .overlay(Circle().stroke(Color("primary"), lineWidth: 3))
+                        .onTapGesture {
+                            viewBadgeOverlay = true
+                        }
                 }
                     .padding([.trailing, .leading], 35)
                     .padding(.bottom, 20)
             }
-        }.navigationBarHidden(true)
+            
+            if (viewBadgeOverlay) {
+                ZStack {
+                    Color("transparent")
+                        .edgesIgnoringSafeArea(.all)
+                    VStack{
+                        HStack {
+                            Spacer()
+                            Image(systemName: "xmark.circle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30, alignment: .center)
+                                .onTapGesture {
+                                    viewBadgeOverlay = false
+                                }
+                        }
+                            .padding([.trailing, .top], 20)
+                        
+                        Spacer()
+                        
+                        Text("BADGES")
+                            .font(.system(size: 45, design: .rounded))
+                            .foregroundColor(.primary)
+                        
+                        Spacer()
+                        
+                        ScrollView {
+                            VStack {
+                                HStack {
+                                    Image(systemName: "rosette")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 30, height: 30, alignment: .center)
+                                    Spacer()
+                                    Text("Win first game")
+                                }
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 20)
+                                .lineLimit(1)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(.primary, lineWidth: 2)
+                                )
+                                
+                                HStack {
+                                    Image(systemName: "gamecontroller")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 30, height: 30, alignment: .center)
+                                    Spacer()
+                                    Text("Play 10 games")
+                                }
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 20)
+                                .lineLimit(1)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(.primary, lineWidth: 2)
+                                )
+                                
+                                HStack {
+                                    Image(systemName: "trash")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 30, height: 30, alignment: .center)
+                                    Spacer()
+                                    Text("Imagine losing")
+                                }
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 20)
+                                .lineLimit(1)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(.primary, lineWidth: 2)
+                                )
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                        }
+                    }
+                    .transition(.opacity.animation(.easeIn(duration: 0.4)))
+                    .frame(width: 350, height: 500, alignment: .center)
+                    .background(Color("primary-background"))
+                    .cornerRadius(20)
+                }
+            }
+        }
+        .onChange(of: scenePhase, perform: { phase in
+            if phase == .background {
+                do {
+                    UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
+                    UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
+                } catch {
+
+                }
+            }
+        })
+        .navigationBarHidden(true)
     }
 }
