@@ -11,6 +11,8 @@ struct Game: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
+    
+    var difficulty: String
 
     @State var playerList: [Match] = []
     @State var currentPlayer: Int = 0
@@ -20,11 +22,12 @@ struct Game: View {
     
     let columns: [GridItem] = Array(repeating: GridItem(.fixed(100), spacing: 5, alignment: .center), count: 3)
     
-    init() {
+    init(difficulty: String) {
         _playerList = State(initialValue: [
             Match(player: "human", isMove: false, piece: "circle", color: "primary"),
             Match(player: "computer", isMove: false, piece: "xmark", color: "gray")
         ])
+        self.difficulty = difficulty
     }
     
     func checkFuturePlayerMove(futureMove: Int, playerMoves: [Int], computerMoves: [Int]) -> Int {
@@ -33,33 +36,37 @@ struct Game: View {
         // Check column
         let columnStartIndex: Int = futureMove % 3
         if (!computerMoves.contains(columnStartIndex) && !computerMoves.contains(columnStartIndex + 3) && !computerMoves.contains(columnStartIndex + 6)) {
+            moveScore -= 1
             if (playerMoves.contains(columnStartIndex) || playerMoves.contains(columnStartIndex + 3) || playerMoves.contains(columnStartIndex + 6)) {
-                moveScore -= 1
+                moveScore -= 2
             }
         }
         
         // Check Row
         let rowStartIndex: Int = futureMove - (futureMove % 3)
         if (!computerMoves.contains(rowStartIndex) && !computerMoves.contains(rowStartIndex + 1) && !computerMoves.contains(rowStartIndex + 2)) {
+            moveScore -= 1
             if (playerMoves.contains(rowStartIndex) || playerMoves.contains(rowStartIndex + 1) || playerMoves.contains(rowStartIndex + 2)) {
-                moveScore -= 1
+                moveScore -= 2
             }
         }
         
         // Check diagonal left to right
         if (futureMove == 0 || futureMove == 4 || futureMove == 8) {
+            moveScore -= 1
             if (!computerMoves.contains(0) && !computerMoves.contains(4) && !computerMoves.contains(8)) {
                 if (playerMoves.contains(0) || playerMoves.contains(4) || playerMoves.contains(8)) {
-                    moveScore -= 1
+                    moveScore -= 2
                 }
             }
         }
         
         // Check diagonal right to left
         if (futureMove == 2 || futureMove == 4 || futureMove == 6) {
+            moveScore -= 1
             if (!computerMoves.contains(2) && !computerMoves.contains(4) && !computerMoves.contains(6)) {
                 if (playerMoves.contains(2) || playerMoves.contains(4) || playerMoves.contains(6)) {
-                    moveScore -= 1
+                    moveScore -= 2
                 }
             }
         }
@@ -70,17 +77,40 @@ struct Game: View {
     func computerMove(playerMove: Int) -> Void {
         let computerPiece = playerList[1].piece
         let playerPiece = playerList[0].piece
-        print(playerMove)
         
-        if (moves[4] == "") {
-            moves[4] = computerPiece
+        var possibleMoves: [Int] = []
+        var computerMoves: [Int] = []
+        var playerMoves: [Int] = []
+        
+        for (index, move) in moves.enumerated() {
+            if (move == playerPiece) {
+                playerMoves.append(index)
+            } else if (move == computerPiece) {
+                computerMoves.append(index)
+            } else {
+                possibleMoves.append(index)
+            }
+        }
+        
+        if (difficulty == "easy") {
+            moves[possibleMoves[Int.random(in: 0..<possibleMoves.count)]] = computerPiece
             return
         }
         
-        if (currentTurn == 2 && moves[4] != "") {
-            let possibleMove = [0, 2, 6, 8]
-            moves[possibleMove[Int.random(in: 0...3)]] = computerPiece
-            return
+        if (currentTurn == 2) {
+            if (difficulty == "normal") {
+                moves[possibleMoves[Int.random(in: 0..<possibleMoves.count)]] = computerPiece
+                return
+            }
+            
+            if (moves[4] == "") {
+                moves[4] = computerPiece
+                return
+            } else {
+                let possibleMove = [0, 2, 6, 8]
+                moves[possibleMove[Int.random(in: 0...3)]] = computerPiece
+                return
+            }
         }
         
         // Check column win
@@ -147,15 +177,12 @@ struct Game: View {
         let columnStartIndex: Int = playerMove % 3
         if (moves[columnStartIndex] != computerPiece && moves[columnStartIndex + 3] != computerPiece && moves[columnStartIndex + 6] != computerPiece) {
             if (moves[columnStartIndex] == playerPiece && moves[columnStartIndex + 3] == playerPiece) {
-                print("block column")
                 moves[columnStartIndex + 6] = computerPiece
                 return
             } else if (moves[columnStartIndex] == playerPiece && moves[columnStartIndex + 6] == playerPiece) {
-                print("block column")
                 moves[columnStartIndex + 3] = computerPiece
                 return
             } else if (moves[columnStartIndex + 3] == playerPiece && moves[columnStartIndex + 6] == playerPiece) {
-                print("block column")
                 moves[columnStartIndex] = computerPiece
                 return
             }
@@ -165,15 +192,12 @@ struct Game: View {
         let rowStartIndex: Int = playerMove - (playerMove % 3)
         if (moves[rowStartIndex] != computerPiece && moves[rowStartIndex + 1] != computerPiece && moves[rowStartIndex + 2] != computerPiece) {
             if (moves[rowStartIndex] == playerPiece && moves[rowStartIndex + 1] == playerPiece) {
-                print("block row")
                 moves[rowStartIndex + 2] = computerPiece
                 return
             } else if (moves[rowStartIndex] == playerPiece && moves[rowStartIndex + 2] == playerPiece) {
-                print("block row")
                 moves[rowStartIndex + 1] = computerPiece
                 return
             } else if (moves[rowStartIndex + 1] == playerPiece && moves[rowStartIndex + 2] == playerPiece) {
-                print("block row")
                 moves[rowStartIndex] = computerPiece
                 return
             }
@@ -181,7 +205,6 @@ struct Game: View {
         
         // Check left to right diagonal to block
         if (playerMove == 0 || playerMove == 4 || playerMove == 8) {
-            print("Here")
             if (moves[0] != computerPiece && moves[4] != computerPiece && moves[8] != computerPiece) {
                 if (moves[0] == playerPiece && moves[4] == playerPiece) {
                     moves[8] = computerPiece
@@ -213,30 +236,18 @@ struct Game: View {
         }
         
         // Check piece to move
-        var possibleMoves: [Int: Int] = [:]
-        var computerMoves: [Int] = []
-        var playerMoves: [Int] = []
-        
         var maxScore: Int = -1
         var move: Int = 0
         
-        for (index, move) in moves.enumerated() {
-            if (move == playerPiece) {
-                playerMoves.append(index)
-            } else if (move == computerPiece) {
-                computerMoves.append(index)
-            } else {
-                possibleMoves[index] = 0
-            }
-        }
-        
-        for (possibleMove, _) in possibleMoves {
+        for possibleMove in possibleMoves {
+            var moveScore = 0;
+            
             // Check column
             let columnStartIndex: Int = possibleMove % 3
             let columnArray: [Int] = [columnStartIndex, columnStartIndex + 3, columnStartIndex + 6]
             if (computerMoves.contains(columnStartIndex) || computerMoves.contains(columnStartIndex + 3) || computerMoves.contains(columnStartIndex + 6)) {
                 if (!playerMoves.contains(columnStartIndex) && !playerMoves.contains(columnStartIndex + 3) && !playerMoves.contains(columnStartIndex + 6)) {
-                    possibleMoves[possibleMove]! += 2
+                    moveScore += 2
                     
                     var futurePlayerMove: Int = 0
                     for i in columnArray {
@@ -245,11 +256,11 @@ struct Game: View {
                             break;
                         }
                     }
-                    possibleMoves[possibleMove]! += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
+                    moveScore += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
                     
                 }
             } else if (playerMoves.contains(columnStartIndex) || playerMoves.contains(columnStartIndex + 3) || playerMoves.contains(columnStartIndex + 6)) {
-                possibleMoves[possibleMove]! += 1
+                moveScore += 1
             }
             
             
@@ -258,7 +269,7 @@ struct Game: View {
             let rowArray: [Int] = [rowStartIndex, rowStartIndex + 1, rowStartIndex + 2]
             if (computerMoves.contains(rowStartIndex) || computerMoves.contains(rowStartIndex + 1) || computerMoves.contains(rowStartIndex + 2)) {
                 if (!playerMoves.contains(rowStartIndex) && !playerMoves.contains(rowStartIndex + 1) && !playerMoves.contains(rowStartIndex + 2)) {
-                    possibleMoves[possibleMove]! += 2
+                    moveScore += 2
                     
                     var futurePlayerMove: Int = 0
                     for i in rowArray {
@@ -267,17 +278,17 @@ struct Game: View {
                             break;
                         }
                     }
-                    possibleMoves[possibleMove]! += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
+                    moveScore += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
                 }
             } else if (playerMoves.contains(rowStartIndex) || playerMoves.contains(rowStartIndex + 1) || playerMoves.contains(rowStartIndex + 2)) {
-                possibleMoves[possibleMove]! += 1
+                moveScore += 1
             }
             
             // Check left to right diagonal
             if (possibleMove == 0 || possibleMove == 4 || possibleMove == 8) {
                 if (computerMoves.contains(0) || computerMoves.contains(4) || computerMoves.contains(8)) {
                     if (!playerMoves.contains(0) && !playerMoves.contains(4) && !playerMoves.contains(8)) {
-                        possibleMoves[possibleMove]! += 2
+                        moveScore += 2
                         
                         var futurePlayerMove: Int = 0
                         for i in [0, 4, 8] {
@@ -286,10 +297,10 @@ struct Game: View {
                                 break;
                             }
                         }
-                        possibleMoves[possibleMove]! += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
+                        moveScore += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
                     }
                 } else if (playerMoves.contains(0) || playerMoves.contains(4) || playerMoves.contains(8)) {
-                    possibleMoves[possibleMove]! += 1
+                    moveScore += 1
                 }
             }
             
@@ -298,7 +309,7 @@ struct Game: View {
             if (possibleMove == 2 || possibleMove == 4 || possibleMove == 6) {
                 if (computerMoves.contains(2) || computerMoves.contains(4) || computerMoves.contains(6)) {
                     if (!playerMoves.contains(2) && !playerMoves.contains(4) && !playerMoves.contains(6)) {
-                        possibleMoves[possibleMove]! += 2
+                        moveScore += 2
                         
                         var futurePlayerMove: Int = 0
                         for i in [2, 4, 6] {
@@ -307,15 +318,15 @@ struct Game: View {
                                 break;
                             }
                         }
-                        possibleMoves[possibleMove]! += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
+                        moveScore += checkFuturePlayerMove(futureMove: futurePlayerMove, playerMoves: playerMoves, computerMoves: computerMoves)
                     }
                 } else if (playerMoves.contains(2) || playerMoves.contains(4) || playerMoves.contains(6)) {
-                    possibleMoves[possibleMove]! += 1
+                    moveScore += 1
                 }
             }
             
-            if (possibleMoves[possibleMove]! > maxScore) {
-                maxScore = possibleMoves[possibleMove]!
+            if (moveScore > maxScore) {
+                maxScore = moveScore
                 move = possibleMove
             }
         }
@@ -355,7 +366,6 @@ struct Game: View {
     
     func endTurn(move: Int) -> Void {
         var scoreChange: Int = 0
-        print("end " + String(currentPlayer))
         if checkWin(move: move) {
             if (playerList[currentPlayer].player == "computer") {
                 gameStatus = "YOU LOSE"

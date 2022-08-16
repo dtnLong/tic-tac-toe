@@ -148,7 +148,7 @@ struct Profile: View {
                             .padding(.bottom, 60)
                     }
                         .transition(.opacity.animation(.easeIn(duration: 0.4)))
-                        .frame(width: 280, height: 350, alignment: .center)
+                        .frame(width: 330, height: 350, alignment: .center)
                         .background(Color("primary-background"))
                         .cornerRadius(20)
                 }

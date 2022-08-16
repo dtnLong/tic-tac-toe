@@ -14,6 +14,7 @@ struct Menu: View {
     @Environment(\.scenePhase) var scenePhase
     
     @State var isResume: Bool = false
+    @State var difficulty: String = "easy"
     
     var body: some View {
         NavigationView {
@@ -61,7 +62,7 @@ struct Menu: View {
                         // Resume Button
                         if (isResume) {
                             NavigationLink {
-                                Game()
+                                Game(difficulty: difficulty)
                             } label: {
                                 Text("RESUME")
                                     .modifier(MenuButtonTextModifier())
@@ -71,11 +72,26 @@ struct Menu: View {
 
                         // Play Button
                         NavigationLink {
-                            Game()
+                            Game(difficulty: difficulty)
                         } label: {
                             Text("PLAY")
                                 .modifier(MenuButtonTextModifier())
                         }
+                        .modifier(MenuButtonModifier())
+                        
+                        // Dificulty
+                        Button(action: {
+                            if (difficulty == "easy") {
+                                difficulty = "normal"
+                            } else if (difficulty == "normal") {
+                                difficulty = "insane"
+                            } else {
+                                difficulty = "easy"
+                            }
+                        }, label: {
+                            Text("DIFFICULTY: " + difficulty.uppercased())
+                                .modifier(MenuButtonTextModifier())
+                        })
                         .modifier(MenuButtonModifier())
 
                         // How to play Button
