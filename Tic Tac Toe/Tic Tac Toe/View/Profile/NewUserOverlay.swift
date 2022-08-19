@@ -10,6 +10,7 @@ import SwiftUI
 struct NewUserOverlay: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
+    @EnvironmentObject var matchData: MatchData
     
     @Binding var showNewUserOverlay: Bool
     
@@ -68,6 +69,7 @@ struct NewUserOverlay: View {
                             
                             profile.player = Player(name: newPlayer, type: .account, wins: 0)
                             profile.playerList.append(profile.player)
+                            matchData.isResume = false
                             
                             showNewUserOverlay = false
                             newPlayer = ""

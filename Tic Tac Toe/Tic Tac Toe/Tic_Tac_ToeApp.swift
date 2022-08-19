@@ -16,11 +16,11 @@ import SwiftUI
 struct Tic_Tac_ToeApp: App {
     @StateObject var settings = AppSettings()
     @StateObject var profile = ProfileData()
+    @StateObject var matchData = MatchData()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear()
                 .onAppear() {
                     // Retrieve current player and list of player from storage on startup
                     if let data = UserDefaults.standard.data(forKey: "player") {
@@ -38,8 +38,25 @@ struct Tic_Tac_ToeApp: App {
                             
                         }
                     }
+                    
+                    if let data = UserDefaults.standard.data(forKey: "isResume") {
+                        do {
+                            matchData.isResume = try JSONDecoder().decode(Bool.self, from: data)
+                        } catch {
+                            
+                        }
+                    }
+                    
+                    if let data = UserDefaults.standard.data(forKey: "matchData") {
+                        do {
+                            matchData.matchData = try JSONDecoder().decode(Match.self, from: data)
+                        } catch {
+                            
+                        }
+                    }
                 }
                 .preferredColorScheme(settings.currentColorScheme)
+                .environmentObject(matchData)
                 .environmentObject(settings)
                 .environmentObject(profile)
         }

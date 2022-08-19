@@ -8,28 +8,30 @@
 import SwiftUI
 
 struct Game: View {
-    @Environment(\.dismiss) var dismissView
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.scenePhase) var scenePhase
+    
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
+    @EnvironmentObject var matchData: MatchData
     
-    var difficulty: String
-
-    @State var playerList: [Match] = []
-    @State var currentPlayer: Int = 0
+    @State var playerData: [String: PlayerProp] = [
+        "player": PlayerProp(isMove: false, piece: "circle", turnColor: "primary"),
+        "computer": PlayerProp(isMove: false, piece: "xmark", turnColor: "gray")
+    ]
+    @State var currentPlayer: String = "player"
     @State var currentTurn: Int = 1
     @State var gameStatus: String = ""
     @State var moves: [String] = Array(repeating: "", count: 9)
+    @State var difficulty: String = ""
     
     let columns: [GridItem] = Array(repeating: GridItem(.fixed(100), spacing: 5, alignment: .center), count: 3)
     
     init(difficulty: String) {
-        _playerList = State(initialValue: [
-            Match(player: "human", isMove: false, piece: "circle", color: "primary"),
-            Match(player: "computer", isMove: false, piece: "xmark", color: "gray")
-        ])
-        self.difficulty = difficulty
+        _difficulty = .init(initialValue: difficulty)
     }
     
+    // MARK: COMPUTER FUNCTION
     func checkFuturePlayerMove(futureMove: Int, playerMoves: [Int], computerMoves: [Int]) -> Int {
         var moveScore: Int = 0;
         
@@ -75,8 +77,8 @@ struct Game: View {
     }
     
     func computerMove(playerMove: Int) -> Void {
-        let computerPiece = playerList[1].piece
-        let playerPiece = playerList[0].piece
+        let computerPiece = playerData["computer"]!.piece
+        let playerPiece = playerData["player"]!.piece
         
         var possibleMoves: [Int] = []
         var computerMoves: [Int] = []
@@ -235,7 +237,7 @@ struct Game: View {
             }
         }
         
-        // Check piece to move
+        // Check piece to move when there is no block or win
         var maxScore: Int = -1
         var move: Int = 0
         
@@ -365,10 +367,12 @@ struct Game: View {
         return false
     }
     
+    // MARK: GAME CONTROLLER
+    
     func endTurn(move: Int) -> Void {
         var scoreChange: Int = 0
         if checkWin(move: move) {
-            if (playerList[currentPlayer].player == "computer") {
+            if (currentPlayer == "computer") {
                 gameStatus = "YOU LOSE"
                 scoreChange = -1
             } else {
@@ -427,37 +431,55 @@ struct Game: View {
         }
         
         currentTurn += 1
-        playerList[currentPlayer].color = "gray"
-        if (currentPlayer != playerList.count - 1) {
-            currentPlayer += 1
+        playerData[currentPlayer]!.turnColor = "gray"
+        if (currentPlayer == "computer") {
+            currentPlayer = "player"
         } else {
-            currentPlayer = 0
+            currentPlayer = "computer"
         }
-        playerList[currentPlayer].color = "primary"
-        playerList[currentPlayer].isMove = false;
+        playerData[currentPlayer]!.turnColor = "primary"
+        playerData[currentPlayer]!.isMove = false;
         
-        if (playerList[currentPlayer].player == "computer") {
+        if (currentPlayer == "computer") {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                 computerMove(playerMove: move)
+                playerData[currentPlayer]!.isMove = true;
             }
         }
     }
     
     func restartGame() -> Void {
-        currentPlayer = 0
+        currentPlayer = "player"
         currentTurn = 1
         gameStatus = ""
         moves = Array(repeating: "", count: 9)
         
         withAnimation() {
-            playerList[0].isMove = false
-            playerList[0].color = "primary"
+            playerData["player"]!.isMove = false
+            playerData["player"]!.turnColor = "primary"
             
-            playerList[1].isMove = false
-            playerList[1].color = "gray"
+            playerData["computer"]!.isMove = false
+            playerData["computer"]!.turnColor = "gray"
         }
     }
     
+    func dismissView() -> Void {
+        matchData.isResume = true
+        matchData.matchData.moves = moves
+        matchData.matchData.currentPlayer = currentPlayer
+        matchData.matchData.difficulty = difficulty
+        matchData.matchData.gameStatus = gameStatus
+        matchData.matchData.currentTurn = currentTurn
+        matchData.matchData.playerData = playerData
+        dismiss()
+    }
+    
+    func endGame() -> Void {
+        matchData.isResume = false
+        dismiss()
+    }
+    
+    // MARK: GAME VIEW
     var body: some View {
         ZStack {
             VStack {
@@ -468,11 +490,11 @@ struct Game: View {
                     Spacer()
                     Image(systemName: "person")
                         .resizable()
-                        .modifier(TurnDisplayModifier(color: $playerList[0].color))
+                        .modifier(TurnDisplayModifier(color: playerData["player"]!.turnColor))
                     Spacer()
                     Image(systemName: "desktopcomputer")
                         .resizable()
-                        .modifier(TurnDisplayModifier(color: $playerList[1].color))
+                        .modifier(TurnDisplayModifier(color: playerData["computer"]!.turnColor))
                     Spacer()
                 }
                 
@@ -493,9 +515,11 @@ struct Game: View {
                                             .frame(width: 60, height: 60)
                                             .transition(.opacity.animation(.easeIn(duration: 0.3)))
                                             .onAppear {
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                    withAnimation() {
-                                                        endTurn(move: index)
+                                                if (playerData[currentPlayer]!.isMove) {
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                        withAnimation() {
+                                                            endTurn(move: index)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -504,9 +528,9 @@ struct Game: View {
                             )
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                if (moves[index] == "" && !playerList[currentPlayer].isMove && playerList[currentPlayer].player != "computer") {
-                                    playerList[currentPlayer].isMove = true
-                                    moves[index] = playerList[currentPlayer].piece
+                                if (moves[index] == "" && !(playerData[currentPlayer]!.isMove) && currentPlayer != "computer") {
+                                    playerData[currentPlayer]!.isMove = true
+                                    moves[index] = playerData[currentPlayer]!.piece
                                 }
                             }
                     }
@@ -522,8 +546,11 @@ struct Game: View {
                     Image(systemName: "arrow.left")
                         .resizable()
                         .modifier(ActionButtonModifier(width: 35, height: 35))
+                        .foregroundColor(Color(playerData[currentPlayer]!.turnColor))
                         .onTapGesture {
-                            dismissView()
+                            if (currentPlayer == "player") {
+                                dismissView()
+                            }
                         }
                     
                     Spacer()
@@ -537,13 +564,33 @@ struct Game: View {
                         }
                 }
                 .padding([.trailing, .leading], 35)
-                .padding(.bottom, 20)
-                
+                .padding(.bottom, 10)
             }
             
             // MARK: GAME OVER OVERLAY
             if (gameStatus != "") {
-                GameOverOverlay(gameStatus: $gameStatus, restartGame: restartGame, endGame: dismissView)
+                GameOverOverlay(gameStatus: $gameStatus, restartGame: restartGame, endGame: endGame)
+            }
+        }
+        .onAppear() {
+            // Load save data when resume
+            if (matchData.isResume) {
+                currentPlayer = matchData.matchData.currentPlayer
+                currentTurn = matchData.matchData.currentTurn
+                gameStatus = matchData.matchData.gameStatus
+                moves = matchData.matchData.moves
+                difficulty = matchData.matchData.difficulty
+            }
+        }
+        .onChange(of: scenePhase) { phase in
+            if (phase == .inactive) {
+                matchData.isResume = true
+                matchData.matchData.moves = moves
+                matchData.matchData.currentPlayer = currentPlayer
+                matchData.matchData.difficulty = difficulty
+                matchData.matchData.gameStatus = gameStatus
+                matchData.matchData.currentTurn = currentTurn
+                matchData.matchData.playerData = playerData
             }
         }
         .navigationBarHidden(true)

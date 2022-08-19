@@ -10,6 +10,7 @@ import SwiftUI
 struct SelectUserOverlay: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
+    @EnvironmentObject var matchData: MatchData
     
     @Binding var showSelectUserOverlay: Bool
     
@@ -45,6 +46,7 @@ struct SelectUserOverlay: View {
                                 )
                                 .onTapGesture {
                                     profile.player = player
+                                    matchData.isResume = false
                                     showSelectUserOverlay = false
                                 }
                         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HowToPlay: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
@@ -62,7 +62,7 @@ struct HowToPlay: View {
                         .resizable()
                         .modifier(ActionButtonModifier(width: 35, height: 35))
                         .onTapGesture {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }
                     
                     Spacer()

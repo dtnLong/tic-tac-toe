@@ -10,7 +10,7 @@ import SwiftUI
 struct GameOverOverlay: View {
     @Binding var gameStatus: String
     var restartGame: () -> Void
-    var endGame: DismissAction
+    var endGame: () -> Void
     
     var body: some View {
         ZStack {

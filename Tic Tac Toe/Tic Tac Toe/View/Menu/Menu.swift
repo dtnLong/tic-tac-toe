@@ -10,8 +10,8 @@ import SwiftUI
 struct Menu: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
+    @EnvironmentObject var matchData: MatchData
     
-    @State var isResume: Bool = false
     @State var difficulty: String = "easy"
     
     var body: some View {
@@ -57,7 +57,7 @@ struct Menu: View {
                     VStack(spacing: 15) {
 
                         // MARK: RESUME GAME BUTTON
-                        if (isResume) {
+                        if (matchData.isResume) {
                             NavigationLink {
                                 Game(difficulty: difficulty)
                             } label: {
@@ -117,6 +117,7 @@ struct Menu: View {
                         }
                     }
                     .padding([.trailing, .leading], 20)
+                    .padding(.bottom, 10)
                 }
             }
             .navigationBarHidden(true)

@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct Profile: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
+    @EnvironmentObject var matchData: MatchData
     
     @State var showNewUserOverlay: Bool = false
     @State var showSelectUserOverlay: Bool = false
@@ -67,7 +68,7 @@ struct Profile: View {
                         .resizable()
                         .modifier(ActionButtonModifier(width: 35, height: 35))
                         .onTapGesture {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }
                     
                     Spacer()

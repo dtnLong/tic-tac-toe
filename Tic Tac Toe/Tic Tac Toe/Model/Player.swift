@@ -8,7 +8,6 @@
 import Foundation
 
 enum PlayerType: Codable {
-    case computer
     case account
     case guest
 }

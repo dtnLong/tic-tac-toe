@@ -52,7 +52,7 @@ struct ActionButtonCircleModifier: ViewModifier {
 }
 
 struct TurnDisplayModifier: ViewModifier {
-    @Binding var color: String;
+    var color: String;
     
     func body(content: Content) -> some View {
         content

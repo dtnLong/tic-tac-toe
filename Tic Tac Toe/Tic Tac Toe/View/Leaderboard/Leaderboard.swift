@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Leaderboard: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
@@ -123,7 +123,7 @@ struct Leaderboard: View {
                         .resizable()
                         .modifier(ActionButtonModifier(width: 35, height: 35))
                         .onTapGesture {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }
                     
                     Spacer()
@@ -137,7 +137,7 @@ struct Leaderboard: View {
                         }
                 }
                 .padding([.trailing, .leading], 35)
-                .padding(.bottom, 20)
+                .padding(.bottom, 10)
             }
             
             // MARK: VIEW ALL BADGE OVERLAY

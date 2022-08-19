@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ProfileData: ObservableObject {
     @Published var player: Player = Player(name: "Guest")
