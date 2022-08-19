@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Game: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismissView
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
     
@@ -463,7 +463,7 @@ struct Game: View {
             VStack {
                 Spacer()
                 
-                // Turn
+                // MARK: CURRENT TURN DISPLAY
                 HStack {
                     Spacer()
                     Image(systemName: "person")
@@ -478,7 +478,7 @@ struct Game: View {
                 
                 Spacer().frame(height: 60)
                 
-                // Board
+                // MARK: BOARD DISPLAY
                 LazyVGrid(columns: columns, spacing: 5) {
                     ForEach(0..<9, id: \.self) {index in
                         Rectangle()
@@ -517,20 +517,21 @@ struct Game: View {
                 
                 Spacer()
                 
-                // Action button
                 HStack {
+                    // MARK: BACK BUTTON
                     Image(systemName: "arrow.left")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 35, height: 35, alignment: .center)
+                        .modifier(ActionButtonModifier(width: 35, height: 35))
                         .onTapGesture {
-                            presentationMode.wrappedValue.dismiss()
+                            dismissView()
                         }
+                    
                     Spacer()
+                    
+                    // MARK: RESTART BUTTON
                     Image(systemName: "arrow.2.circlepath")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40, alignment: .center)
+                        .modifier(ActionButtonModifier())
                         .onTapGesture {
                             restartGame()
                         }
@@ -540,47 +541,9 @@ struct Game: View {
                 
             }
             
-            // Game over
+            // MARK: GAME OVER OVERLAY
             if (gameStatus != "") {
-                ZStack {
-                    Color("transparent")
-                        .edgesIgnoringSafeArea(.all)
-                    VStack{
-                        Spacer()
-                        
-                        Text(gameStatus)
-                            .font(.system(size: 55, design: .rounded))
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
-                        
-                        HStack {
-                            Image(systemName: "arrow.left")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 45, height: 45, alignment: .center)
-                                .onTapGesture {
-                                    presentationMode.wrappedValue.dismiss()
-                                }
-                            
-                            Spacer()
-                            
-                            Image(systemName: "arrow.2.circlepath")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50, height: 50, alignment: .center)
-                                .onTapGesture {
-                                    restartGame()
-                                }
-                        }
-                        .padding([.trailing, .leading], 60)
-                        .padding(.bottom, 60)
-                    }
-                    .transition(.opacity.animation(.easeIn(duration: 0.4)))
-                    .frame(minWidth: 280, idealWidth: 280, maxWidth: 320, minHeight: 280, idealHeight: 300, maxHeight: 350, alignment: .center)
-                    .background(Color("primary-background"))
-                    .cornerRadius(20)
-                }
+                GameOverOverlay(gameStatus: $gameStatus, restartGame: restartGame, endGame: dismissView)
             }
         }
         .navigationBarHidden(true)

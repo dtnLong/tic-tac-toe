@@ -12,6 +12,7 @@
 		980910E728A262D900AC1242 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980910E628A262D900AC1242 /* Game.swift */; };
 		980910E928A262EF00AC1242 /* HowToPlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980910E828A262EF00AC1242 /* HowToPlay.swift */; };
 		980910EF28A2863500AC1242 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980910EE28A2863500AC1242 /* Profile.swift */; };
+		982C10C628AF570D008BA635 /* GameOverOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982C10C528AF570D008BA635 /* GameOverOverlay.swift */; };
 		985B1A6428A7A2FA00043334 /* MatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B1A6328A7A2FA00043334 /* MatchData.swift */; };
 		985B1A6628A7A50700043334 /* ProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B1A6528A7A50700043334 /* ProfileData.swift */; };
 		985D49C428AF4AB200E24B8F /* BadgeOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985D49C328AF4AB200E24B8F /* BadgeOverlay.swift */; };
@@ -35,6 +36,7 @@
 		980910E628A262D900AC1242 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		980910E828A262EF00AC1242 /* HowToPlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlay.swift; sourceTree = "<group>"; };
 		980910EE28A2863500AC1242 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		982C10C528AF570D008BA635 /* GameOverOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverOverlay.swift; sourceTree = "<group>"; };
 		985B1A6328A7A2FA00043334 /* MatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchData.swift; sourceTree = "<group>"; };
 		985B1A6528A7A50700043334 /* ProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileData.swift; sourceTree = "<group>"; };
 		985D49C328AF4AB200E24B8F /* BadgeOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeOverlay.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				980910E628A262D900AC1242 /* Game.swift */,
+				982C10C528AF570D008BA635 /* GameOverOverlay.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				985D49CB28AF51DF00E24B8F /* NewUserOverlay.swift in Sources */,
 				98948E9D28A22D470031FE68 /* Tic_Tac_ToeApp.swift in Sources */,
 				980910EF28A2863500AC1242 /* Profile.swift in Sources */,
+				982C10C628AF570D008BA635 /* GameOverOverlay.swift in Sources */,
 				980910E928A262EF00AC1242 /* HowToPlay.swift in Sources */,
 				98948EB228A2366C0031FE68 /* Modifier.swift in Sources */,
 				985D49C928AF51C500E24B8F /* SelectUserOverlay.swift in Sources */,
