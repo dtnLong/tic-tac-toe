@@ -9,20 +9,23 @@ import SwiftUI
 
 struct Leaderboard: View {
     @Environment(\.presentationMode) var presentationMode
+    
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
     
-    @Environment(\.scenePhase) var scenePhase
-    
-    @State var viewBadgeOverlay: Bool = false;
+    @State var showBadgeOverlay: Bool = false;
     
     var body: some View {
         ZStack {
             VStack {
                 Spacer().frame(height: 30)
+                
+                // MARK: LEADERBOARD TITLE
                 Text("LEADERBOARD")
                     .font(.system(size: 45, design: .rounded))
                     .foregroundColor(.primary)
+                
+                // MARK: LEADERBOARD LIST
                 ScrollView {
                     VStack(alignment: .leading) {
                         ForEach(profile.playerList.sorted(by: {
@@ -111,126 +114,37 @@ struct Leaderboard: View {
                         }
                     }.padding(.top, 10)
                 }
+                
                 Spacer().frame(height: 30)
+                
                 HStack {
+                    // MARK: BACK BUTTON
                     Image(systemName: "arrow.left")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 35, height: 35, alignment: .center)
+                        .modifier(ActionButtonModifier(width: 35, height: 35))
                         .onTapGesture {
                             presentationMode.wrappedValue.dismiss()
                         }
+                    
                     Spacer()
+                    
+                    // MARK: VIEW ALL BADGE BUTTON
                     Image(systemName: "rosette")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 35, height: 35, alignment: .center)
-                        .padding(15)
-                        .overlay(Circle().stroke(Color("primary"), lineWidth: 3))
+                        .modifier(ActionButtonCircleModifier())
                         .onTapGesture {
-                            viewBadgeOverlay = true
+                            showBadgeOverlay = true
                         }
                 }
-                    .padding([.trailing, .leading], 35)
-                    .padding(.bottom, 20)
+                .padding([.trailing, .leading], 35)
+                .padding(.bottom, 20)
             }
             
-            if (viewBadgeOverlay) {
-                ZStack {
-                    Color("transparent")
-                        .edgesIgnoringSafeArea(.all)
-                    VStack{
-                        HStack {
-                            Spacer()
-                            Image(systemName: "xmark.circle")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, height: 30, alignment: .center)
-                                .onTapGesture {
-                                    viewBadgeOverlay = false
-                                }
-                        }
-                            .padding([.trailing, .top], 20)
-                        
-                        Spacer()
-                        
-                        Text("BADGES")
-                            .font(.system(size: 45, design: .rounded))
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
-                        
-                        ScrollView {
-                            VStack {
-                                HStack {
-                                    Image(systemName: "rosette")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 30, height: 30, alignment: .center)
-                                    Spacer()
-                                    Text("Win first game")
-                                }
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 20)
-                                .lineLimit(1)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(.primary, lineWidth: 2)
-                                )
-                                
-                                HStack {
-                                    Image(systemName: "gamecontroller")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 30, height: 30, alignment: .center)
-                                    Spacer()
-                                    Text("Play 10 games")
-                                }
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 20)
-                                .lineLimit(1)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(.primary, lineWidth: 2)
-                                )
-                                
-                                HStack {
-                                    Image(systemName: "trash")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 30, height: 30, alignment: .center)
-                                    Spacer()
-                                    Text("Imagine losing")
-                                }
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 20)
-                                .lineLimit(1)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(.primary, lineWidth: 2)
-                                )
-                            }
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 10)
-                        }
-                    }
-                    .transition(.opacity.animation(.easeIn(duration: 0.4)))
-                    .frame(width: 350, height: 500, alignment: .center)
-                    .background(Color("primary-background"))
-                    .cornerRadius(20)
-                }
+            // MARK: VIEW ALL BADGE OVERLAY
+            if (showBadgeOverlay) {
+                BadgeOverlay(showBadgeOverlay: $showBadgeOverlay)
             }
         }
-        .onChange(of: scenePhase, perform: { phase in
-            if phase == .background {
-                do {
-                    UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
-                    UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
-                } catch {
-
-                }
-            }
-        })
         .navigationBarHidden(true)
     }
 }

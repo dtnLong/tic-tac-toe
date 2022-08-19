@@ -12,8 +12,6 @@ struct Game: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
     
-    @Environment(\.scenePhase) var scenePhase
-    
     var difficulty: String
 
     @State var playerList: [Match] = []
@@ -585,16 +583,6 @@ struct Game: View {
                 }
             }
         }
-        .onChange(of: scenePhase, perform: { phase in
-            if phase == .background {
-                do {
-                    UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
-                    UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
-                } catch {
-
-                }
-            }
-        })
         .navigationBarHidden(true)
     }
 }

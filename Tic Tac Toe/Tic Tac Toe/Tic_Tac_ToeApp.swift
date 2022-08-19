@@ -1,9 +1,14 @@
-//
-//  Tic_Tac_ToeApp.swift
-//  Tic Tac Toe
-//
-//  Created by Long, Dang Truong Nguyen on 09/08/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 2
+  Author: Dang Truong Nguyen Long
+  ID: s3757333
+  Created  date: 19/08/2022
+  Last modified: 19/08/2022
+  Acknowledgement: Acknowledge the resources that you use here.
+*/
 
 import SwiftUI
 
@@ -17,6 +22,7 @@ struct Tic_Tac_ToeApp: App {
             ContentView()
                 .onAppear()
                 .onAppear() {
+                    // Retrieve current player and list of player from storage on startup
                     if let data = UserDefaults.standard.data(forKey: "player") {
                         do {
                             profile.player = try JSONDecoder().decode(Player.self, from: data)

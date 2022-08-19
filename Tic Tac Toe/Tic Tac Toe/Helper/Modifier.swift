@@ -29,6 +29,28 @@ struct MenuButtonTextModifier: ViewModifier {
     }
 }
 
+struct ActionButtonModifier: ViewModifier {
+    var width: CGFloat = 50
+    var height: CGFloat = 50
+    
+    func body(content: Content) -> some View {
+        content
+            .aspectRatio(contentMode: .fit)
+            .frame(width: width, height: height, alignment: .center)
+            .foregroundColor(.primary)
+    }
+}
+
+struct ActionButtonCircleModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 35, height: 35, alignment: .center)
+            .padding(15)
+            .overlay(Circle().stroke(Color("primary"), lineWidth: 3))
+    }
+}
+
 struct TurnDisplayModifier: ViewModifier {
     @Binding var color: String;
     

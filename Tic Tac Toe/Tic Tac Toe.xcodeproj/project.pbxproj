@@ -14,6 +14,10 @@
 		980910EF28A2863500AC1242 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980910EE28A2863500AC1242 /* Profile.swift */; };
 		985B1A6428A7A2FA00043334 /* MatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B1A6328A7A2FA00043334 /* MatchData.swift */; };
 		985B1A6628A7A50700043334 /* ProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B1A6528A7A50700043334 /* ProfileData.swift */; };
+		985D49C428AF4AB200E24B8F /* BadgeOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985D49C328AF4AB200E24B8F /* BadgeOverlay.swift */; };
+		985D49C728AF4F1200E24B8F /* BadgeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985D49C628AF4F1200E24B8F /* BadgeItem.swift */; };
+		985D49C928AF51C500E24B8F /* SelectUserOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985D49C828AF51C500E24B8F /* SelectUserOverlay.swift */; };
+		985D49CB28AF51DF00E24B8F /* NewUserOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985D49CA28AF51DF00E24B8F /* NewUserOverlay.swift */; };
 		9868E7E928A7563300DDE869 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7E828A7563300DDE869 /* AppSettings.swift */; };
 		9868E7EB28A756D800DDE869 /* ColorSchemeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */; };
 		98948E9D28A22D470031FE68 /* Tic_Tac_ToeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98948E9C28A22D470031FE68 /* Tic_Tac_ToeApp.swift */; };
@@ -33,6 +37,10 @@
 		980910EE28A2863500AC1242 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		985B1A6328A7A2FA00043334 /* MatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchData.swift; sourceTree = "<group>"; };
 		985B1A6528A7A50700043334 /* ProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileData.swift; sourceTree = "<group>"; };
+		985D49C328AF4AB200E24B8F /* BadgeOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeOverlay.swift; sourceTree = "<group>"; };
+		985D49C628AF4F1200E24B8F /* BadgeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeItem.swift; sourceTree = "<group>"; };
+		985D49C828AF51C500E24B8F /* SelectUserOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUserOverlay.swift; sourceTree = "<group>"; };
+		985D49CA28AF51DF00E24B8F /* NewUserOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserOverlay.swift; sourceTree = "<group>"; };
 		9868E7E828A7563300DDE869 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeSetting.swift; sourceTree = "<group>"; };
 		98948E9928A22D470031FE68 /* Tic Tac Toe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tic Tac Toe.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +64,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		985D49BE28AF4A6500E24B8F /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				980910E628A262D900AC1242 /* Game.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		985D49BF28AF4A6C00E24B8F /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				980910E028A2614900AC1242 /* Menu.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		985D49C028AF4A7200E24B8F /* HowToPlay */ = {
+			isa = PBXGroup;
+			children = (
+				980910E828A262EF00AC1242 /* HowToPlay.swift */,
+			);
+			path = HowToPlay;
+			sourceTree = "<group>";
+		};
+		985D49C128AF4A7D00E24B8F /* Leaderboard */ = {
+			isa = PBXGroup;
+			children = (
+				980910E228A262C600AC1242 /* Leaderboard.swift */,
+				985D49C328AF4AB200E24B8F /* BadgeOverlay.swift */,
+				985D49C628AF4F1200E24B8F /* BadgeItem.swift */,
+			);
+			path = Leaderboard;
+			sourceTree = "<group>";
+		};
+		985D49C228AF4A8600E24B8F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				980910EE28A2863500AC1242 /* Profile.swift */,
+				985D49C828AF51C500E24B8F /* SelectUserOverlay.swift */,
+				985D49CA28AF51DF00E24B8F /* NewUserOverlay.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		985D49C528AF4E8C00E24B8F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				98948EAF28A22E980031FE68 /* Player.swift */,
+				98BA75B728A6102300D603DD /* Match.swift */,
+				9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		987F6A8028A63CA200D34EA6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -86,8 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				987F6A8028A63CA200D34EA6 /* ViewModel */,
+				985D49C528AF4E8C00E24B8F /* Model */,
 				98948EAC28A22D900031FE68 /* Helper */,
-				98948EAB28A22D880031FE68 /* Modal */,
 				98948EAA28A22D820031FE68 /* View */,
 				98948E9C28A22D470031FE68 /* Tic_Tac_ToeApp.swift */,
 				98948EA028A22D480031FE68 /* Assets.xcassets */,
@@ -99,23 +161,13 @@
 			isa = PBXGroup;
 			children = (
 				98948E9E28A22D470031FE68 /* ContentView.swift */,
-				980910E028A2614900AC1242 /* Menu.swift */,
-				980910E228A262C600AC1242 /* Leaderboard.swift */,
-				980910E628A262D900AC1242 /* Game.swift */,
-				980910E828A262EF00AC1242 /* HowToPlay.swift */,
-				980910EE28A2863500AC1242 /* Profile.swift */,
+				985D49C228AF4A8600E24B8F /* Profile */,
+				985D49C128AF4A7D00E24B8F /* Leaderboard */,
+				985D49C028AF4A7200E24B8F /* HowToPlay */,
+				985D49BF28AF4A6C00E24B8F /* Menu */,
+				985D49BE28AF4A6500E24B8F /* Game */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		98948EAB28A22D880031FE68 /* Modal */ = {
-			isa = PBXGroup;
-			children = (
-				98948EAF28A22E980031FE68 /* Player.swift */,
-				98BA75B728A6102300D603DD /* Match.swift */,
-				9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */,
-			);
-			path = Modal;
 			sourceTree = "<group>";
 		};
 		98948EAC28A22D900031FE68 /* Helper */ = {
@@ -198,6 +250,7 @@
 			files = (
 				980910E128A2614900AC1242 /* Menu.swift in Sources */,
 				980910E728A262D900AC1242 /* Game.swift in Sources */,
+				985D49C428AF4AB200E24B8F /* BadgeOverlay.swift in Sources */,
 				9868E7E928A7563300DDE869 /* AppSettings.swift in Sources */,
 				98948EB028A22E980031FE68 /* Player.swift in Sources */,
 				98948E9F28A22D470031FE68 /* ContentView.swift in Sources */,
@@ -206,11 +259,14 @@
 				980910E328A262C600AC1242 /* Leaderboard.swift in Sources */,
 				985B1A6628A7A50700043334 /* ProfileData.swift in Sources */,
 				98948EAE28A22DE50031FE68 /* PlaySound.swift in Sources */,
+				985D49CB28AF51DF00E24B8F /* NewUserOverlay.swift in Sources */,
 				98948E9D28A22D470031FE68 /* Tic_Tac_ToeApp.swift in Sources */,
 				980910EF28A2863500AC1242 /* Profile.swift in Sources */,
 				980910E928A262EF00AC1242 /* HowToPlay.swift in Sources */,
 				98948EB228A2366C0031FE68 /* Modifier.swift in Sources */,
+				985D49C928AF51C500E24B8F /* SelectUserOverlay.swift in Sources */,
 				98BA75B828A6102300D603DD /* Match.swift in Sources */,
+				985D49C728AF4F1200E24B8F /* BadgeItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

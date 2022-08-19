@@ -9,26 +9,28 @@ import SwiftUI
 
 struct HowToPlay: View {
     @Environment(\.presentationMode) var presentationMode
+    
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
-    
-    @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
         ZStack {
             VStack {
                 Spacer()
                 
+                // MARK: HOW TO PLAY TITLE
                 Text("HOW TO PLAY")
                     .font(.system(size: 50, design: .rounded))
                     .foregroundColor(.primary)
                 
                 Spacer().frame(height: 40)
                 
+                // MARK: GAME IMAGE
                 Image("tic-tac-toe" + settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImage)
                 
                 Spacer().frame(height: 40)
                 
+                // MARK: HOW TO PLAY LIST
                 VStack(alignment: .leading, spacing: 10) {
                     HStack(alignment: .firstTextBaseline, spacing: 5) {
                         Text("1.")
@@ -55,29 +57,20 @@ struct HowToPlay: View {
                 Spacer()
                 
                 HStack {
+                    // MARK: BACK BUTTON
                     Image(systemName: "arrow.left")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 35, height: 35, alignment: .center)
+                        .modifier(ActionButtonModifier(width: 35, height: 35))
                         .onTapGesture {
                             presentationMode.wrappedValue.dismiss()
                         }
+                    
                     Spacer()
                 }
                 .padding([.trailing, .leading], 35)
                 .padding(.bottom, 20)
             }
         }
-        .onChange(of: scenePhase, perform: { phase in
-            if phase == .background {
-                do {
-                    UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
-                    UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
-                } catch {
-
-                }
-            }
-        })
         .navigationBarHidden(true)
     }
 }

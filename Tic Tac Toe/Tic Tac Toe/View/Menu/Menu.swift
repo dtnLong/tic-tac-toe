@@ -11,8 +11,6 @@ struct Menu: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
     
-    @Environment(\.scenePhase) var scenePhase
-    
     @State var isResume: Bool = false
     @State var difficulty: String = "easy"
     
@@ -21,6 +19,7 @@ struct Menu: View {
             ZStack {
                 VStack {
                     HStack {
+                        // MARK: DARK MODE BUTTON
                         Button(action: {
                             if (settings.currentColorScheme == .light) {
                                 settings.currentColorScheme = .dark
@@ -30,27 +29,25 @@ struct Menu: View {
                         }, label: {
                             Image(systemName: settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImageSetting)
                                 .resizable()
-                                .foregroundColor(.primary)
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50, height: 50, alignment: .center)
+                                .modifier(ActionButtonModifier())
                         })
-                        // Profile
+                        
                         Spacer()
 
+                        // MARK: PROFILE BUTTON
                         NavigationLink {
                             Profile()
                         } label: {
                             Image(systemName: "person.crop.circle")
                                 .resizable()
-                                .foregroundColor(.primary)
-                                .frame(width: 50, height: 50, alignment: .center)
+                                .modifier(ActionButtonModifier())
                         }
                     }
                     .padding([.trailing, .leading], 20)
-                    // Game Title
                     
                     Spacer()
                     
+                    // MARK: GAME TITLE
                     Text("TIC-TAC-TOE")
                         .font(.system(size: 55, design: .rounded))
                         .foregroundColor(.primary)
@@ -59,7 +56,7 @@ struct Menu: View {
 
                     VStack(spacing: 15) {
 
-                        // Resume Button
+                        // MARK: RESUME GAME BUTTON
                         if (isResume) {
                             NavigationLink {
                                 Game(difficulty: difficulty)
@@ -70,7 +67,7 @@ struct Menu: View {
                             .modifier(MenuButtonModifier())
                         }
 
-                        // Play Button
+                        // MARK: PLAY BUTTON
                         NavigationLink {
                             Game(difficulty: difficulty)
                         } label: {
@@ -79,7 +76,7 @@ struct Menu: View {
                         }
                         .modifier(MenuButtonModifier())
                         
-                        // Dificulty
+                        // MARK: DIFFICULTY BUTTON
                         Button(action: {
                             if (difficulty == "easy") {
                                 difficulty = "normal"
@@ -94,7 +91,7 @@ struct Menu: View {
                         })
                         .modifier(MenuButtonModifier())
 
-                        // How to play Button
+                        // MARK: HOW TO PLAY BUTTON
                         NavigationLink {
                             HowToPlay()
                         } label: {
@@ -108,32 +105,20 @@ struct Menu: View {
                     Spacer()
 
                     HStack {
-                        // Leaderboard Button
                         Spacer()
-
+                        
+                        // MARK: LEADERBOARD BUTTON
                         NavigationLink {
                             Leaderboard()
                         } label: {
                             Image("leaderboard" + settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImage)
                                 .resizable()
-                                .frame(width: 35, height: 35, alignment: .center)
-                                .padding(15)
-                                .overlay(Circle().stroke(Color("primary"), lineWidth: 3))
+                                .modifier(ActionButtonCircleModifier())
                         }
                     }
                     .padding([.trailing, .leading], 20)
                 }
             }
-            .onChange(of: scenePhase, perform: { phase in
-                if phase == .background {
-                    do {
-                        UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
-                        UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
-                    } catch {
-
-                    }
-                }
-            })
             .navigationBarHidden(true)
         }
     }
