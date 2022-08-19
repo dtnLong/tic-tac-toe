@@ -22,6 +22,11 @@
 		9868E7E928A7563300DDE869 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7E828A7563300DDE869 /* AppSettings.swift */; };
 		9868E7EB28A756D800DDE869 /* ColorSchemeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */; };
 		986EF1EC28AF63070090AB01 /* Computer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF1EB28AF63070090AB01 /* Computer.swift */; };
+		986EF1F128AF8ECA0090AB01 /* place-piece.wav in Resources */ = {isa = PBXBuildFile; fileRef = 986EF1F028AF8ECA0090AB01 /* place-piece.wav */; };
+		986EF1F328AF900B0090AB01 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = 986EF1F228AF900B0090AB01 /* win.wav */; };
+		986EF1FA28AF943F0090AB01 /* tie.wav in Resources */ = {isa = PBXBuildFile; fileRef = 986EF1F828AF943F0090AB01 /* tie.wav */; };
+		986EF1FB28AF943F0090AB01 /* lose.wav in Resources */ = {isa = PBXBuildFile; fileRef = 986EF1F928AF943F0090AB01 /* lose.wav */; };
+		986EF1FD28AF95970090AB01 /* menu-background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 986EF1FC28AF95970090AB01 /* menu-background.mp3 */; };
 		98948E9D28A22D470031FE68 /* Tic_Tac_ToeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98948E9C28A22D470031FE68 /* Tic_Tac_ToeApp.swift */; };
 		98948E9F28A22D470031FE68 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98948E9E28A22D470031FE68 /* ContentView.swift */; };
 		98948EA128A22D480031FE68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98948EA028A22D480031FE68 /* Assets.xcassets */; };
@@ -47,6 +52,11 @@
 		9868E7E828A7563300DDE869 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeSetting.swift; sourceTree = "<group>"; };
 		986EF1EB28AF63070090AB01 /* Computer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Computer.swift; sourceTree = "<group>"; };
+		986EF1F028AF8ECA0090AB01 /* place-piece.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "place-piece.wav"; sourceTree = "<group>"; };
+		986EF1F228AF900B0090AB01 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
+		986EF1F828AF943F0090AB01 /* tie.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = tie.wav; sourceTree = "<group>"; };
+		986EF1F928AF943F0090AB01 /* lose.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lose.wav; sourceTree = "<group>"; };
+		986EF1FC28AF95970090AB01 /* menu-background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "menu-background.mp3"; sourceTree = "<group>"; };
 		98948E9928A22D470031FE68 /* Tic Tac Toe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tic Tac Toe.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98948E9C28A22D470031FE68 /* Tic_Tac_ToeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tic_Tac_ToeApp.swift; sourceTree = "<group>"; };
 		98948E9E28A22D470031FE68 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -124,6 +134,18 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		986EF1ED28AF8A260090AB01 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				986EF1FC28AF95970090AB01 /* menu-background.mp3 */,
+				986EF1F928AF943F0090AB01 /* lose.wav */,
+				986EF1F828AF943F0090AB01 /* tie.wav */,
+				986EF1F228AF900B0090AB01 /* win.wav */,
+				986EF1F028AF8ECA0090AB01 /* place-piece.wav */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
 		987F6A8028A63CA200D34EA6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +175,7 @@
 		98948E9B28A22D470031FE68 /* Tic Tac Toe */ = {
 			isa = PBXGroup;
 			children = (
+				986EF1ED28AF8A260090AB01 /* Sound */,
 				987F6A8028A63CA200D34EA6 /* ViewModel */,
 				98948EAC28A22D900031FE68 /* Helper */,
 				985D49C528AF4E8C00E24B8F /* Model */,
@@ -243,7 +266,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				986EF1FB28AF943F0090AB01 /* lose.wav in Resources */,
+				986EF1F328AF900B0090AB01 /* win.wav in Resources */,
+				986EF1FA28AF943F0090AB01 /* tie.wav in Resources */,
+				986EF1FD28AF95970090AB01 /* menu-background.mp3 in Resources */,
 				98948EA128A22D480031FE68 /* Assets.xcassets in Resources */,
+				986EF1F128AF8ECA0090AB01 /* place-piece.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

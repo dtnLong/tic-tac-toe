@@ -7,7 +7,7 @@
   ID: s3757333
   Created  date: 19/08/2022
   Last modified: 19/08/2022
-  Acknowledgement: Acknowledge the resources that you use here.
+  Acknowledgement: Mixkit, pixabay, Flaticon
 */
 
 import SwiftUI

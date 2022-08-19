@@ -1,9 +1,14 @@
-//
-//  Menu.swift
-//  Tic Tac Toe
-//
-//  Created by Long, Dang Truong Nguyen on 09/08/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 2
+  Author: Dang Truong Nguyen Long
+  ID: s3757333
+  Created  date: 19/08/2022
+  Last modified: 19/08/2022
+  Acknowledgement: Mixkit, pixabay, Flaticon
+*/
 
 import SwiftUI
 
@@ -59,7 +64,7 @@ struct Menu: View {
                         // MARK: RESUME GAME BUTTON
                         if (matchData.isResume) {
                             NavigationLink {
-                                Game(difficulty: difficulty)
+                                Game(difficulty: difficulty, isResume: true)
                             } label: {
                                 Text("RESUME")
                                     .modifier(MenuButtonTextModifier())
@@ -69,7 +74,7 @@ struct Menu: View {
 
                         // MARK: PLAY BUTTON
                         NavigationLink {
-                            Game(difficulty: difficulty)
+                            Game(difficulty: difficulty, isResume: false)
                         } label: {
                             Text("PLAY")
                                 .modifier(MenuButtonTextModifier())
@@ -118,6 +123,15 @@ struct Menu: View {
                     }
                     .padding([.trailing, .leading], 20)
                     .padding(.bottom, 10)
+                }
+            }
+            .onAppear() {
+                if let audioPlayer = audioPlayer {
+                    if (!audioPlayer.isPlaying) {
+                        playSoundLoop(sound: "menu-background", type: "mp3", volumeScale: 1, loop: -1)
+                    }
+                } else {
+                    playSoundLoop(sound: "menu-background", type: "mp3", volumeScale: 1, loop: -1)
                 }
             }
             .navigationBarHidden(true)

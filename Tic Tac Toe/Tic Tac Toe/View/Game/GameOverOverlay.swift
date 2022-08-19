@@ -1,9 +1,14 @@
-//
-//  SwiftUIView.swift
-//  Tic Tac Toe
-//
-//  Created by Long, Dang Truong Nguyen on 19/08/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 2
+  Author: Dang Truong Nguyen Long
+  ID: s3757333
+  Created  date: 19/08/2022
+  Last modified: 19/08/2022
+  Acknowledgement: Mixkit, pixabay, Flaticon
+*/
 
 import SwiftUI
 
@@ -47,9 +52,17 @@ struct GameOverOverlay: View {
                 .padding(.bottom, 60)
             }
             .transition(.opacity.animation(.easeIn(duration: 0.4)))
-            .frame(width: 280, height: 300, alignment: .center)
+            .frame(width: 290, height: 300, alignment: .center)
             .background(Color("primary-background"))
             .cornerRadius(20)
+        }.onAppear() {
+            if (gameStatus == "YOU WIN") {
+                playSound(sound: "win", type: "wav", volumeScale: 1)
+            } else if (gameStatus == "YOU LOSE") {
+                playSound(sound: "lose", type: "wav", volumeScale: 2.5)
+            } else {
+                playSound(sound: "tie", type: "wav", volumeScale: 3)
+            }
         }
     }
 }

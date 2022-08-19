@@ -1,9 +1,14 @@
-//
-//  Game.swift
-//  Tic Tac Toe
-//
-//  Created by Long, Dang Truong Nguyen on 09/08/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 2
+  Author: Dang Truong Nguyen Long
+  ID: s3757333
+  Created  date: 19/08/2022
+  Last modified: 19/08/2022
+  Acknowledgement: Mixkit, pixabay, Flaticon
+*/
 
 import SwiftUI
 
@@ -24,11 +29,13 @@ struct Game: View {
     @State var gameStatus: String = ""
     @State var moves: [String] = Array(repeating: "", count: 9)
     @State var difficulty: String = ""
+    @State var isResume: Bool = false
     
     let columns: [GridItem] = Array(repeating: GridItem(.fixed(100), spacing: 5, alignment: .center), count: 3)
     
-    init(difficulty: String) {
+    init(difficulty: String, isResume: Bool) {
         _difficulty = .init(initialValue: difficulty)
+        _isResume = .init(initialValue: isResume)
     }
     
     // MARK: COMPUTER FUNCTION
@@ -444,6 +451,7 @@ struct Game: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                 computerMove(playerMove: move)
                 playerData[currentPlayer]!.isMove = true;
+//                playSound(sound: "place-piece", type: "wav", volumeScale: 1)
             }
         }
     }
@@ -516,6 +524,7 @@ struct Game: View {
                                             .transition(.opacity.animation(.easeIn(duration: 0.3)))
                                             .onAppear {
                                                 if (playerData[currentPlayer]!.isMove) {
+                                                    playSound(sound: "place-piece", type: "wav", volumeScale: 1)
                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                         withAnimation() {
                                                             endTurn(move: index)
@@ -531,6 +540,7 @@ struct Game: View {
                                 if (moves[index] == "" && !(playerData[currentPlayer]!.isMove) && currentPlayer != "computer") {
                                     playerData[currentPlayer]!.isMove = true
                                     moves[index] = playerData[currentPlayer]!.piece
+//                                    playSound(sound: "place-piece", type: "wav", volumeScale: 1)
                                 }
                             }
                     }
@@ -573,8 +583,11 @@ struct Game: View {
             }
         }
         .onAppear() {
+            // Stop all audio
+            audioPlayer?.stop()
+            
             // Load save data when resume
-            if (matchData.isResume) {
+            if (isResume) {
                 currentPlayer = matchData.matchData.currentPlayer
                 currentTurn = matchData.matchData.currentTurn
                 gameStatus = matchData.matchData.gameStatus
