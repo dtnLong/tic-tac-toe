@@ -15,6 +15,7 @@ struct PlayerProp: Codable {
 
 struct Match: Codable {
     var moves: [String] = Array(repeating: "", count: 9)
+    var playerMove: Int = 0
     var currentTurn: Int = 1
     var currentPlayer: String = "player"
     var gameStatus: String = ""

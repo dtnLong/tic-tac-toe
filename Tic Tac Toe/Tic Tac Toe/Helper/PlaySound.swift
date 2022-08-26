@@ -30,6 +30,7 @@ func playSound(sound: String, type: String, volumeScale: Float, audioPlayer: ino
 }
 
 func playSoundLoop(sound: String, type: String, volumeScale: Float, loop: Int, audioPlayer: inout AVAudioPlayer?) {
+    // -1 to do infinite loop
     if let path = Bundle.main.path(forResource: sound, ofType: type) {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))

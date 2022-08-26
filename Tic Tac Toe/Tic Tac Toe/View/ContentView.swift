@@ -26,8 +26,6 @@ struct ContentView: View {
                 do {
                     UserDefaults.standard.set(try JSONEncoder().encode(profile.player), forKey: "player")
                     UserDefaults.standard.set(try JSONEncoder().encode(profile.playerList), forKey: "playerList")
-                    UserDefaults.standard.set(try JSONEncoder().encode(matchData.isResume), forKey: "isResume")
-                    UserDefaults.standard.set(try JSONEncoder().encode(matchData.matchData), forKey: "matchData")
                 } catch {
 
                 }

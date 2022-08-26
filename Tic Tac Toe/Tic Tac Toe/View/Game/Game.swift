@@ -30,6 +30,7 @@ struct Game: View {
     @State var moves: [String] = Array(repeating: "", count: 9)
     @State var difficulty: String = ""
     @State var isResume: Bool = false
+    @State var playerMove: Int = 0
     
     let columns: [GridItem] = Array(repeating: GridItem(.fixed(100), spacing: 5, alignment: .center), count: 3)
     
@@ -38,7 +39,10 @@ struct Game: View {
         _isResume = .init(initialValue: isResume)
     }
     
+    
     // MARK: COMPUTER FUNCTION
+    
+    
     func checkFuturePlayerMove(futureMove: Int, playerMoves: [Int], computerMoves: [Int]) -> Int {
         var moveScore: Int = 0;
         
@@ -344,7 +348,13 @@ struct Game: View {
         return
     }
     
+    
+    // MARK: GAME CONTROLLER
+    
+    
     func checkWin(move: Int) -> Bool {
+        // MARK: CHECK GAME WIN
+        
         // Check row
         let rowStartIndex: Int = move - (move % 3)
         if (moves[rowStartIndex] == moves[rowStartIndex + 1] && moves[rowStartIndex] == moves[rowStartIndex + 2]) {
@@ -374,9 +384,9 @@ struct Game: View {
         return false
     }
     
-    // MARK: GAME CONTROLLER
-    
     func endTurn(move: Int) -> Void {
+        // MARK: END TURN ACTION
+        
         var scoreChange: Int = 0
         if checkWin(move: move) {
             if (currentPlayer == "computer") {
@@ -451,12 +461,12 @@ struct Game: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                 computerMove(playerMove: move)
                 playerData[currentPlayer]!.isMove = true;
-//                playSound(sound: "place-piece", type: "wav", volumeScale: 1)
             }
         }
     }
     
     func restartGame() -> Void {
+        // MARK: RESTART GAME ACTION
         currentPlayer = "player"
         currentTurn = 1
         gameStatus = ""
@@ -471,18 +481,32 @@ struct Game: View {
         }
     }
     
+    func storeMatchData() -> Void {
+        // MARK: STORE CURRENT MATCH DATA
+        do {
+            matchData.isResume = true
+            matchData.matchData.moves = moves
+            matchData.matchData.currentPlayer = currentPlayer
+            matchData.matchData.difficulty = difficulty
+            matchData.matchData.gameStatus = gameStatus
+            matchData.matchData.currentTurn = currentTurn
+            matchData.matchData.playerData = playerData
+            matchData.matchData.playerMove = playerMove
+            UserDefaults.standard.set(try JSONEncoder().encode(matchData.isResume), forKey: "isResume")
+            UserDefaults.standard.set(try JSONEncoder().encode(matchData.matchData), forKey: "matchData")
+        } catch {
+
+        }
+    }
+    
     func dismissView() -> Void {
-        matchData.isResume = true
-        matchData.matchData.moves = moves
-        matchData.matchData.currentPlayer = currentPlayer
-        matchData.matchData.difficulty = difficulty
-        matchData.matchData.gameStatus = gameStatus
-        matchData.matchData.currentTurn = currentTurn
-        matchData.matchData.playerData = playerData
+        // MARK: BACK FROM  GAME
+        storeMatchData()
         dismiss()
     }
     
     func endGame() -> Void {
+        // MARK: BACK FROM FINISHED GAME
         matchData.isResume = false
         dismiss()
     }
@@ -540,7 +564,7 @@ struct Game: View {
                                 if (moves[index] == "" && !(playerData[currentPlayer]!.isMove) && currentPlayer != "computer") {
                                     playerData[currentPlayer]!.isMove = true
                                     moves[index] = playerData[currentPlayer]!.piece
-//                                    playSound(sound: "place-piece", type: "wav", volumeScale: 1)
+                                    playerMove = index
                                 }
                             }
                     }
@@ -593,19 +617,23 @@ struct Game: View {
                 gameStatus = matchData.matchData.gameStatus
                 moves = matchData.matchData.moves
                 difficulty = matchData.matchData.difficulty
+                playerData = matchData.matchData.playerData
+                playerMove = matchData.matchData.playerMove
+            }
+            
+            if (currentPlayer == "computer") {
+                if (currentPlayer == "computer") {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                        computerMove(playerMove: playerMove)
+                        playerData[currentPlayer]!.isMove = true;
+                    }
+                }
             }
         }
-        .onChange(of: scenePhase) { phase in
-            if (phase == .inactive || phase == .background) {
-                matchData.isResume = true
-                matchData.matchData.moves = moves
-                matchData.matchData.currentPlayer = currentPlayer
-                matchData.matchData.difficulty = difficulty
-                matchData.matchData.gameStatus = gameStatus
-                matchData.matchData.currentTurn = currentTurn
-                matchData.matchData.playerData = playerData
-            }
-        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification), perform: { _ in
+            // Save data when app go to background
+            storeMatchData()
+        })
         .navigationBarHidden(true)
     }
 }
