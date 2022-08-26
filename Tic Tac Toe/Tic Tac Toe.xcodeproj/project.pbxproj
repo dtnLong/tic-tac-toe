@@ -21,7 +21,6 @@
 		985D49CB28AF51DF00E24B8F /* NewUserOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985D49CA28AF51DF00E24B8F /* NewUserOverlay.swift */; };
 		9868E7E928A7563300DDE869 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7E828A7563300DDE869 /* AppSettings.swift */; };
 		9868E7EB28A756D800DDE869 /* ColorSchemeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */; };
-		986EF1EC28AF63070090AB01 /* Computer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF1EB28AF63070090AB01 /* Computer.swift */; };
 		986EF1F128AF8ECA0090AB01 /* place-piece.wav in Resources */ = {isa = PBXBuildFile; fileRef = 986EF1F028AF8ECA0090AB01 /* place-piece.wav */; };
 		986EF1F328AF900B0090AB01 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = 986EF1F228AF900B0090AB01 /* win.wav */; };
 		986EF1FA28AF943F0090AB01 /* tie.wav in Resources */ = {isa = PBXBuildFile; fileRef = 986EF1F828AF943F0090AB01 /* tie.wav */; };
@@ -51,7 +50,6 @@
 		985D49CA28AF51DF00E24B8F /* NewUserOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserOverlay.swift; sourceTree = "<group>"; };
 		9868E7E828A7563300DDE869 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeSetting.swift; sourceTree = "<group>"; };
-		986EF1EB28AF63070090AB01 /* Computer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Computer.swift; sourceTree = "<group>"; };
 		986EF1F028AF8ECA0090AB01 /* place-piece.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "place-piece.wav"; sourceTree = "<group>"; };
 		986EF1F228AF900B0090AB01 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
 		986EF1F828AF943F0090AB01 /* tie.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = tie.wav; sourceTree = "<group>"; };
@@ -129,7 +127,6 @@
 				98948EAF28A22E980031FE68 /* Player.swift */,
 				98BA75B728A6102300D603DD /* Match.swift */,
 				9868E7EA28A756D800DDE869 /* ColorSchemeSetting.swift */,
-				986EF1EB28AF63070090AB01 /* Computer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -291,7 +288,6 @@
 				9868E7EB28A756D800DDE869 /* ColorSchemeSetting.swift in Sources */,
 				985B1A6428A7A2FA00043334 /* MatchData.swift in Sources */,
 				980910E328A262C600AC1242 /* Leaderboard.swift in Sources */,
-				986EF1EC28AF63070090AB01 /* Computer.swift in Sources */,
 				985B1A6628A7A50700043334 /* ProfileData.swift in Sources */,
 				98948EAE28A22DE50031FE68 /* PlaySound.swift in Sources */,
 				985D49CB28AF51DF00E24B8F /* NewUserOverlay.swift in Sources */,
