@@ -16,7 +16,7 @@ class AppSettings: ObservableObject {
     ]
     @Published var colorSchemeModeButton: [UIUserInterfaceStyle: String] = [
         .light: "sun.max",
-        .dark: "icloud",
+        .dark: "cloud",
         .unspecified: "cloud.sun"
     ]
 }
