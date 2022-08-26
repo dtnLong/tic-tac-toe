@@ -9,30 +9,14 @@ import Foundation
 import SwiftUI
 
 class AppSettings: ObservableObject {
-    @Published var currentColorScheme: ColorScheme = .light
+    @Published var currentColorScheme: UIUserInterfaceStyle = .unspecified
     @Published var colorSchemeSetting: [ColorScheme: ColorSchemeSetting] = [
-        .light: ColorSchemeSetting(colorScheme: .light, colorSchemeImage: "-any", colorSchemeImageSetting: "sun.max"),
-        .dark: ColorSchemeSetting(colorScheme: .dark, colorSchemeImage: "-dark", colorSchemeImageSetting: "cloud.moon")
+        .light: ColorSchemeSetting(colorScheme: .light, colorSchemeImage: "-any"),
+        .dark: ColorSchemeSetting(colorScheme: .dark, colorSchemeImage: "-dark")
     ]
-    
-    @Published var isActive = true
-
-    private var observers = [NSObjectProtocol]()
-
-    init() {
-        observers.append(
-            NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { _ in
-                self.isActive = true
-            }
-        )
-        observers.append(
-            NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { _ in
-                self.isActive = false
-            }
-        )
-    }
-    
-    deinit {
-        observers.forEach(NotificationCenter.default.removeObserver)
-    }
+    @Published var colorSchemeModeButton: [UIUserInterfaceStyle: String] = [
+        .light: "sun.max",
+        .dark: "cloud.moon",
+        .unspecified: "desktopcomputer"
+    ]
 }

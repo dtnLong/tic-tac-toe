@@ -13,6 +13,7 @@
 import SwiftUI
 
 struct Menu: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var profile: ProfileData
     @EnvironmentObject var matchData: MatchData
@@ -28,11 +29,14 @@ struct Menu: View {
                         Button(action: {
                             if (settings.currentColorScheme == .light) {
                                 settings.currentColorScheme = .dark
+                            } else if (settings.currentColorScheme == .dark) {
+                                settings.currentColorScheme = .unspecified
                             } else {
                                 settings.currentColorScheme = .light
                             }
+                            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = settings.currentColorScheme
                         }, label: {
-                            Image(systemName: settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImageSetting)
+                            Image(systemName: settings.colorSchemeModeButton[settings.currentColorScheme]!)
                                 .resizable()
                                 .modifier(ActionButtonModifier())
                         })
@@ -116,7 +120,7 @@ struct Menu: View {
                         NavigationLink {
                             Leaderboard()
                         } label: {
-                            Image("leaderboard" + settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImage)
+                            Image("leaderboard" + settings.colorSchemeSetting[colorScheme]!.colorSchemeImage)
                                 .resizable()
                                 .modifier(ActionButtonCircleModifier())
                         }

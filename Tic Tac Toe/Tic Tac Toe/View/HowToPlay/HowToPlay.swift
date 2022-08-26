@@ -13,6 +13,7 @@
 import SwiftUI
 
 struct HowToPlay: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var settings: AppSettings
@@ -31,7 +32,7 @@ struct HowToPlay: View {
                 Spacer().frame(height: 40)
                 
                 // MARK: GAME IMAGE
-                Image("tic-tac-toe" + settings.colorSchemeSetting[settings.currentColorScheme]!.colorSchemeImage)
+                Image("tic-tac-toe" + settings.colorSchemeSetting[colorScheme]!.colorSchemeImage)
                 
                 Spacer().frame(height: 40)
                 

@@ -13,6 +13,7 @@
 import SwiftUI
 
 struct Leaderboard: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var settings: AppSettings

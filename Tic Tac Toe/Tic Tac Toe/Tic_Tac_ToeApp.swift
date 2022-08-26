@@ -55,7 +55,6 @@ struct Tic_Tac_ToeApp: App {
                         }
                     }
                 }
-                .preferredColorScheme(settings.currentColorScheme)
                 .environmentObject(matchData)
                 .environmentObject(settings)
                 .environmentObject(profile)

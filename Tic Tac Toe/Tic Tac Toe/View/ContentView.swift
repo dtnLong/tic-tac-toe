@@ -17,8 +17,6 @@ struct ContentView: View {
     @EnvironmentObject var profile: ProfileData
     @EnvironmentObject var matchData: MatchData
     
-    @Environment(\.scenePhase) var scenePhase
-    
     var body: some View {
         Menu()
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification), perform: { _ in

@@ -13,6 +13,7 @@
 import SwiftUI
 
 struct Game: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
     
