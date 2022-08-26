@@ -622,11 +622,9 @@ struct Game: View {
             }
             
             if (currentPlayer == "computer") {
-                if (currentPlayer == "computer") {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                        computerMove(playerMove: playerMove)
-                        playerData[currentPlayer]!.isMove = true;
-                    }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    computerMove(playerMove: playerMove)
+                    playerData[currentPlayer]!.isMove = true;
                 }
             }
         }
