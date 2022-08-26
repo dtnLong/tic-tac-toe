@@ -14,9 +14,10 @@ import SwiftUI
 
 import AVFoundation
 
-var audioPlayer: AVAudioPlayer?
+var soundEffectPlayer: AVAudioPlayer?
+var menuMusicPlayer: AVAudioPlayer?
 
-func playSound(sound: String, type: String, volumeScale: Float) {
+func playSound(sound: String, type: String, volumeScale: Float, audioPlayer: inout AVAudioPlayer?) {
     if let path = Bundle.main.path(forResource: sound, ofType: type) {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
@@ -28,7 +29,7 @@ func playSound(sound: String, type: String, volumeScale: Float) {
     }
 }
 
-func playSoundLoop(sound: String, type: String, volumeScale: Float, loop: Int) {
+func playSoundLoop(sound: String, type: String, volumeScale: Float, loop: Int, audioPlayer: inout AVAudioPlayer?) {
     if let path = Bundle.main.path(forResource: sound, ofType: type) {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))

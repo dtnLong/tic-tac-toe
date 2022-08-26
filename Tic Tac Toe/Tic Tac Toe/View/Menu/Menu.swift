@@ -126,12 +126,12 @@ struct Menu: View {
                 }
             }
             .onAppear() {
-                if let audioPlayer = audioPlayer {
+                if let audioPlayer = menuMusicPlayer {
                     if (!audioPlayer.isPlaying) {
-                        playSoundLoop(sound: "menu-background", type: "mp3", volumeScale: 1, loop: -1)
+                        playSoundLoop(sound: "menu-background", type: "mp3", volumeScale: 1, loop: -1, audioPlayer: &menuMusicPlayer)
                     }
                 } else {
-                    playSoundLoop(sound: "menu-background", type: "mp3", volumeScale: 1, loop: -1)
+                    playSoundLoop(sound: "menu-background", type: "mp3", volumeScale: 1, loop: -1, audioPlayer: &menuMusicPlayer)
                 }
             }
             .navigationBarHidden(true)

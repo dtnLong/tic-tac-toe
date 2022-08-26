@@ -57,11 +57,11 @@ struct GameOverOverlay: View {
             .cornerRadius(20)
         }.onAppear() {
             if (gameStatus == "YOU WIN") {
-                playSound(sound: "win", type: "wav", volumeScale: 1)
+                playSound(sound: "win", type: "wav", volumeScale: 1, audioPlayer: &soundEffectPlayer)
             } else if (gameStatus == "YOU LOSE") {
-                playSound(sound: "lose", type: "wav", volumeScale: 2.5)
+                playSound(sound: "lose", type: "wav", volumeScale: 2.5, audioPlayer: &soundEffectPlayer)
             } else {
-                playSound(sound: "tie", type: "wav", volumeScale: 3)
+                playSound(sound: "tie", type: "wav", volumeScale: 3, audioPlayer: &soundEffectPlayer)
             }
         }
     }

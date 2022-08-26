@@ -524,7 +524,7 @@ struct Game: View {
                                             .transition(.opacity.animation(.easeIn(duration: 0.3)))
                                             .onAppear {
                                                 if (playerData[currentPlayer]!.isMove) {
-                                                    playSound(sound: "place-piece", type: "wav", volumeScale: 1)
+                                                    playSound(sound: "place-piece", type: "wav", volumeScale: 1, audioPlayer: &soundEffectPlayer)
                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                         withAnimation() {
                                                             endTurn(move: index)
@@ -584,7 +584,7 @@ struct Game: View {
         }
         .onAppear() {
             // Stop all audio
-            audioPlayer?.stop()
+            menuMusicPlayer?.stop()
             
             // Load save data when resume
             if (isResume) {
@@ -596,7 +596,7 @@ struct Game: View {
             }
         }
         .onChange(of: scenePhase) { phase in
-            if (phase == .inactive) {
+            if (phase == .inactive || phase == .background) {
                 matchData.isResume = true
                 matchData.matchData.moves = moves
                 matchData.matchData.currentPlayer = currentPlayer
